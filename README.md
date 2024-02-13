@@ -14,3 +14,10 @@ Some ideas/resources (by Mariana):
 - Thinking about interactive code on the console, R scripts and literate programming (when to use what). Some R+Python based ideas can be found in [Yihui Xie's post](https://yihui.org/en/2018/09/notebook-war/).
 - Use the [pipe](https://www.r-bloggers.com/2021/05/the-new-r-pipe/) (either native or `{magrittr}`'s?)
 - Create [reproducible examples](https://reprex.tidyverse.org/) for debugging, creating issues...
+- I/O considerations: how to properly read/write files (CSV, TSV, etc)
+- how to distribute projects (incl. data and scripts) 
+    + using git (via IDE)
+    + using relative paths w.r.t. top-level project path
+    + See [MCLM 2022 cheatsheet](https://mclm2022.github.io/git/cheatsheet.html)
+- GJBex material about [Best Practices in Programming](https://gjbex.github.io/Best-practices-in-programming/)
+- Using linters and styler?
