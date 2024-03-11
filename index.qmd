@@ -1,0 +1,291 @@
+---
+title: "Best Practices in R"
+format: revealjs
+author: Mariana Montes
+execute:
+  echo: true
+code-annotations: select
+---
+
+## Bad example
+
+```{r}
+#| eval: false
+#| code-line-numbers: "|1"
+
+setwd("/home/username/My Projects/R for best practices/")
+
+df<-read.csv( "Flight Subset 2013.csv")
+df$month_name = month.name[df$month]
+for(i in 1:length(df$dep_delay)){
+  if(is.na(df$dep_delay[[i]])){
+    df[i, "dep_delay_cat"] <- NA
+  }else if(df$dep_delay[[i]] < -30){
+    df[i, "dep_delay_cat"] <- "Early"
+  }else if(df$dep_delay[[i]] < 30){
+    df[i, "dep_delay_cat"] <- "Kind of on time"
+  }else if (df$dep_delay[[i]] < 120) {
+    df[i, "dep_delay_cat"] <- "Late"
+  } else {
+    df[i, "dep_delay_cat"] <- "Way too late"
+  }
+}
+df$dep_delay_cat <- as.factor(df$dep_delay_cat)
+```
+
+# `setwd()` vs projects
+
+## Avoid `setwd()`
+
+- Absolute paths are particular to a specific location
+
+- The path needs to be updated:
+
+  + if you move your script around
+
+  + if you work from a different device, a server...
+  
+  + if you share your script with someone else
+  
+## Project-based workflow
+
+- R projects, git repositories...
+
+- Relevant code and data together
+
+- Paths relative to the root of a project
+
+## `{here}`
+
+```{r}
+#| error: true
+library(here)
+
+# print(i_am("another/path.txt"))
+print(i_am("index.qmd"))
+print(dir(here()))
+print(dir(here("analysis")))
+```
+
+# Naming
+
+## Example
+
+```{r}
+#| eval: false
+
+df<-read.csv( "Flight Subset 2013.csv")
+df$month_name = month.name[df$month]
+```
+
+## Best practices
+
+1. Beware of / avoid using existing names (e.g. `df`, `c`, `T`, `mean`)
+2. Avoid using dots (although Base R does use them)
+3. For files: stick to numbers, letters, `_` and `-` - beware of case!
+4. For variables: use lowercase letters, numbers and snake_case.
+4. Generally: variables = nouns; functions = verbs
+
+## Improved example
+
+```{r}
+#| eval: false
+library(here)
+i_am("index.qmd")
+
+some_flights<-read.csv(here( "data" , "nycflights13_random2000.csv"))
+some_flights$month_name = month.name[some_flights$month]
+```
+
+# Spaces and punctuation
+
+## Spaces and punctuation
+
+:::: {.columns}
+
+::: {.column width="50%"}
+### No spaces
+
+Apandacomesintoabar
+:::
+
+::: {.column width="50%"}
+### With spaces
+
+A panda comes into a bar
+:::
+
+::::
+
+. . .
+
+:::: {.columns}
+
+::: {.column width="50%"}
+### No commas
+
+...eats shoots and leaves.
+:::
+
+::: {.column width="50%"}
+### With commas
+
+...eats, shoots, and leaves.
+:::
+
+::::
+
+## Example
+
+```{r}
+#| eval: false
+#| code-line-numbers: "|4|5|6,8|7"
+library(here)
+i_am("index.qmd")
+
+some_flights<-read.csv(here( 'data' , "nycflights13_random2000.csv"))
+some_flights$month_name=month.name[some_flights$month]
+for(i in 1 : length(some_flights$dep_delay)){
+  print (some_flights $ dep_delay [ i ])
+}
+```
+
+## Best practices {.smaller .incremental}
+
+:::: {.columns}
+::: {.column width="50%"}
+- No spaces between `()` and text inside
+- Use `""` instead of `''` unless there is already `""` inside.
+- The assignment operator in R is ` <- ` ^[Use `Alt+-`!]
+- The assignment operator and infix operators should be surrounded by spaces.
+:::
+
+::: {.column width="50%"}
+- Spaces around the `()` for `for`, `if` and `when`.
+- No spaces around `:`, `$`, `[`, `^`, `+`...
+- Spaces only after `()` for function arguments.
+- Difference between `[]` and `[[]]`.
+:::
+
+::::
+
+```{r}
+#| eval: false
+library(here)
+i_am("index.qmd")
+
+some_flights <- read.csv(here("data", "nycflights13_random2000.csv"))
+some_flights$month_name <- month.name[some_flights$month]
+for (i in 1:length(some_flights$dep_delay)) {
+  print(some_flights$dep_delay[[i]])
+}
+```
+
+::: footer
+
+[Tidyverse styleguide](https://style.tidyverse.org/syntax.html)
+
+:::
+
+# The pipe
+
+## Example
+
+```{r}
+#| eval: false
+#| code-line-numbers: "|1|2|5,7,9,11,13|16"
+some_flights <- read.csv(here("data" , "nycflights13_random2000.csv"))
+some_flights$month_name <- month.name[some_flights$month]
+for (i in 1:length(some_flights$dep_delay)) {
+  if(is.na(some_flights$dep_delay[[i]])) {
+    some_flights[i, "dep_delay_cat"] <- NA
+  } else if(some_flights$dep_delay[[i]] < -30) {
+    some_flights[i, "dep_delay_cat"] <- "Early"
+  } else if(some_flights$dep_delay[[i]] < 30) {
+    some_flights[i, "dep_delay_cat"] <- "Kind of on time"
+  } else if (some_flights$dep_delay[[i]] < 120) {
+    some_flights[i, "dep_delay_cat"] <- "Late"
+  } else {
+    some_flights[i, "dep_delay_cat"] <- "Way too late"
+  }
+}
+some_flights$dep_delay_cat <- as.factor(some_flights$dep_delay_cat)
+```
+
+## Tips
+
+- Use the pipe (`{magrittr}`'s `%>%` or R's `|>`) to chain mutations to the same object. ^[Use `Ctrl+Shitf+M`!]
+
+- Use `{dplyr}` functions to manipulate one or several columns at a time
+
+## Improved example
+
+```{r}
+library(dplyr)
+library(readr)
+some_flights_raw <- read_csv(here("data", "nycflights13_random2000.csv"))
+some_flights_raw
+```
+
+## Improved example
+
+```{r}
+#| output-location: slide
+#| code-line-numbers: "|1|2|3-9|10-11"
+some_flights <- some_flights_raw |> 
+  mutate(month_name = month.name[month]) |> 
+  mutate(dep_delay_cat = case_when(
+    is.na(dep_delay) ~ NA_character_,
+    dep_delay < -30 ~ "Early",
+    dep_delay < 30 ~ "Kind of on time",
+    dep_delay < 120 ~ "Late",
+    TRUE ~ "Way too late"
+  ) |> as.factor())
+some_flights |> 
+  select(month, month_name, dep_delay, dep_delay_cat)
+```
+
+## Multiple columns at once
+
+```{r}
+#| output-location: slide
+#| code-line-numbers: "|2,4-10,12|2,3,11|13-14"
+some_flights <- some_flights |> 
+  mutate(across(
+    ends_with("delay"),
+    ~ case_when(
+      is.na(.x) ~ NA_character_,
+      .x < -30 ~ "Early",
+      .x < 30 ~ "Kind of on time",
+      .x < 120 ~ "Late",
+      TRUE ~ "Way too late"
+    ) |> as.factor(),
+    .names = "{.col}_cat"
+  ))
+some_flights |> 
+  select(contains("delay"))
+```
+
+## Multiple columns at once
+
+```{r}
+some_flights |> 
+  mutate(across(where(is.character), as.factor)) |> 
+  select(where(is.factor))
+```
+
+## Motivation for this style
+
+- Shorter
+- Easier to read (once you understand the syntax)
+- Fewer "rewritings" of the variable = easier to keep track of its state
+
+# I/O
+
+## {background-iframe="https://readr.tidyverse.org/"}
+
+# Reproducibility
+
+## {background-iframe="https://rstudio.github.io/renv/"}
+
+## {background-iframe="https://reprex.tidyverse.org/"}
