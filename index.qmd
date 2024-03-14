@@ -13,21 +13,22 @@ code-annotations: select
 #| eval: false
 #| code-line-numbers: "|1"
 
-setwd("/home/username/My Projects/R for best practices/")
+setwd("C:\\Users\\username\\My Projects\\R for best practices")
 
 df<-read.csv( "Flight Subset 2013.csv")
 df$month_name = month.name[df$month]
+df$carrier <- as.factor(df$carrier)
+df$tailnum <- as.factor(df$tailnum)
+df$origin <- as.factor(df$origin)
 for(i in 1:length(df$dep_delay)){
-  if(is.na(df$dep_delay[[i]])){
-    df[i, "dep_delay_cat"] <- NA
-  }else if(df$dep_delay[[i]] < -30){
+if(is.na(df$dep_delay[[i]])){
+df[i, "dep_delay_cat"] <- NA
+}else if(df$dep_delay[[i]] < -30){
     df[i, "dep_delay_cat"] <- "Early"
-  }else if(df$dep_delay[[i]] < 30){
+       }else if(df$dep_delay[[i]] < 30){
     df[i, "dep_delay_cat"] <- "Kind of on time"
-  }else if (df$dep_delay[[i]] < 120) {
-    df[i, "dep_delay_cat"] <- "Late"
   } else {
-    df[i, "dep_delay_cat"] <- "Way too late"
+    df[i, "dep_delay_cat"] <- "Late"
   }
 }
 df$dep_delay_cat <- as.factor(df$dep_delay_cat)
@@ -55,17 +56,37 @@ df$dep_delay_cat <- as.factor(df$dep_delay_cat)
 
 - Paths relative to the root of a project
 
+<!-- Add screenshot of RStudio and the projects? -->
+
 ## `{here}`
 
 ```{r}
 #| error: true
 library(here)
 
-# print(i_am("another/path.txt"))
-print(i_am("index.qmd"))
+# i_am("another/path.txt")
+i_am("index.qmd")
+# here()
 print(dir(here()))
 print(dir(here("analysis")))
+# source(here("analysis", "model.R"))
 ```
+
+## Git
+
+- R projects can be git repositories
+
+- Version control: keep track of the changes in your code, data, output...
+
+- Share and collaborate via GitLab, Github...
+
+<!-- Add logos of GitLab and Github, a screenshot of a diff... -->
+
+::: footer
+
+[Happy Git With R](https://happygitwithr.com/)
+
+:::
 
 # Naming
 
@@ -82,7 +103,7 @@ df$month_name = month.name[df$month]
 
 1. Beware of / avoid using existing names (e.g. `df`, `c`, `T`, `mean`)
 2. Avoid using dots (although Base R does use them)
-3. For files: stick to numbers, letters, `_` and `-` - beware of case!
+3. For files: stick to numbers, lowercase letters, `_` and `-` - beware of case!
 4. For variables: use lowercase letters, numbers and snake_case.
 4. Generally: variables = nouns; functions = verbs
 
@@ -135,7 +156,9 @@ A panda comes into a bar
 
 ::::
 
-## Example
+. . .
+
+### Example
 
 ```{r}
 #| eval: false
@@ -146,7 +169,7 @@ i_am("index.qmd")
 some_flights<-read.csv(here( 'data' , "nycflights13_random2000.csv"))
 some_flights$month_name=month.name[some_flights$month]
 for(i in 1 : length(some_flights$dep_delay)){
-  print (some_flights $ dep_delay [ i ])
+if(abs(i)>30){print (some_flights $ dep_delay [ i ])}
 }
 ```
 
@@ -165,6 +188,7 @@ for(i in 1 : length(some_flights$dep_delay)){
 - No spaces around `:`, `$`, `[`, `^`, `+`...
 - Spaces only after `()` for function arguments.
 - Difference between `[]` and `[[]]`.
+- Pay attention to indentation!
 :::
 
 ::::
@@ -177,7 +201,9 @@ i_am("index.qmd")
 some_flights <- read.csv(here("data", "nycflights13_random2000.csv"))
 some_flights$month_name <- month.name[some_flights$month]
 for (i in 1:length(some_flights$dep_delay)) {
-  print(some_flights$dep_delay[[i]])
+  if (abs(i) > 30) {
+    print(some_flights$dep_delay[[i]])
+  }
 }
 ```
 
@@ -193,30 +219,48 @@ for (i in 1:length(some_flights$dep_delay)) {
 
 ```{r}
 #| eval: false
-#| code-line-numbers: "|1|2|5,7,9,11,13|16"
+#| code-line-numbers: "|1|2|3-5,17|6,8,10,12,14|18"
 some_flights <- read.csv(here("data" , "nycflights13_random2000.csv"))
 some_flights$month_name <- month.name[some_flights$month]
+some_flights$carrier <- as.factor(some_flights$carrier)
+some_flights$tailnum <- as.factor(some_flights$tailnum)
+some_flights$origin <- as.factor(some_flights$origin)
 for (i in 1:length(some_flights$dep_delay)) {
   if(is.na(some_flights$dep_delay[[i]])) {
     some_flights[i, "dep_delay_cat"] <- NA
-  } else if(some_flights$dep_delay[[i]] < -30) {
+  } else if (df$dep_delay[[i]] < -30) {
     some_flights[i, "dep_delay_cat"] <- "Early"
-  } else if(some_flights$dep_delay[[i]] < 30) {
+  } else if(df$dep_delay[[i]] < 30){
     some_flights[i, "dep_delay_cat"] <- "Kind of on time"
-  } else if (some_flights$dep_delay[[i]] < 120) {
-    some_flights[i, "dep_delay_cat"] <- "Late"
   } else {
-    some_flights[i, "dep_delay_cat"] <- "Way too late"
+    some_flights[i, "dep_delay_cat"] <- "Late"
   }
 }
 some_flights$dep_delay_cat <- as.factor(some_flights$dep_delay_cat)
+some_flights_partial <- some_flights[c("month_name", "carrier", "tailnum", "origin", "dep_delay_cat")]
 ```
 
-## Tips
+## Problems
+
+- The same variable is overwritten: how to keep track of its state in an interactive session?
+
+- Typing the same thing over and over
+
+    + risk of typos
+    + what if you rename the variable?
+    
+- Copying parts in other variables: what about memory?!
+
+## Best practices
 
 - Use the pipe (`{magrittr}`'s `%>%` or R's `|>`) to chain mutations to the same object. ^[Use `Ctrl+Shitf+M`!]
 
-- Use `{dplyr}` functions to manipulate one or several columns at a time
+- Use `{dplyr}` functions to manipulate one or several columns at a time:
+
+    + `mutate()` to create new columns or modify existing ones
+    + `filter()` to select specific rows
+    + `select()` to select specific columns
+
 
 ## Improved example
 
@@ -224,22 +268,142 @@ some_flights$dep_delay_cat <- as.factor(some_flights$dep_delay_cat)
 library(dplyr)
 library(readr)
 some_flights_raw <- read_csv(here("data", "nycflights13_random2000.csv"))
-some_flights_raw
+some_flights_raw # specific state to which you might want to return
+```
+
+## Multiple columns at once
+
+```{r}
+some_flights <- some_flights_raw |> 
+  mutate(across(where(is.character), as.factor))
+some_flights |> select(where(is.factor))
+```
+
+
+# Functional programming
+
+```
+for (i in 1:length(some_flights$dep_delay)) {
+  if(is.na(some_flights$dep_delay[[i]])) {
+    some_flights[i, "dep_delay_cat"] <- NA
+  } else if (df$dep_delay[[i]] < -30) {
+    some_flights[i, "dep_delay_cat"] <- "Early"
+  } else if(df$dep_delay[[i]] < 30){
+    some_flights[i, "dep_delay_cat"] <- "Kind of on time"
+  } else {
+    some_flights[i, "dep_delay_cat"] <- "Late"
+  }
+}
+```
+
+## R and vectors
+
+```{r}
+#| include: false
+set.seed(7)
+```
+
+```{r}
+(character_vector <- c("a", "character", "vector"))
+(numeric_vector <- rnorm(5))
+(logical_vector <- sample(c(TRUE, FALSE), 5, replace=TRUE))
+(a_list <- list(1, TRUE, list("list", "of", "lists")))
+```
+
+## Vectorized functions
+
+```{r}
+toupper(character_vector)
+paste(character_vector, ":", toupper(character_vector))
+numeric_vector * 4
+```
+
+## Working with lists
+
+```{r}
+class(a_list)
+# get class of each item with a for loop
+classes <- vector("character", length(a_list))
+for (i in seq_along(a_list)) {
+  classes[[i]] <- class(a_list[[i]])
+}
+# with a mapping function
+purrr::map_chr(a_list, class)
+```
+
+## Match vectors with indices
+
+```{r}
+month.name
+month.name[[3]]
+month.name[c(4, 6, 7)]
+head(some_flights$month)
+month.name[head(some_flights$month)]
+head(month.name[some_flights$month])
+```
+
+## Turn numeric into categorical: `case_when()`
+
+```{r}
+#| eval: false
+for (i in 1:length(some_flights$dep_delay)) {
+  if(is.na(some_flights$dep_delay[[i]])) {
+    some_flights[i, "dep_delay_cat"] <- NA
+  } else if (df$dep_delay[[i]] < -30) {
+    some_flights[i, "dep_delay_cat"] <- "Early"
+  } else if(df$dep_delay[[i]] < 30){
+    some_flights[i, "dep_delay_cat"] <- "Kind of on time"
+  } else {
+    some_flights[i, "dep_delay_cat"] <- "Late"
+  }
+}
+```
+
+## `case_when()` {auto-animate=true}
+
+```r
+some_flights |> 
+  mutate(dep_delay_cat = case_when(
+    # condition ~ output
+  ))
+```
+
+## `case_when()` {auto-animate=true}
+
+```r
+some_flights |> 
+  mutate(dep_delay_cat = case_when(
+    # condition ~ output
+    is.na(dep_delay) ~ NA_character_, # if it is NA, return NA
+    TRUE ~ "Late" # else, return "Late"
+  ))
+```
+
+## `case_when()` {auto-animate=true}
+
+```r
+some_flights |> 
+  mutate(dep_delay_cat = case_when(
+    # condition ~ output
+    is.na(dep_delay) ~ NA_character_, # if it is NA, return NA
+    dep_delay < -30 ~ "Early", # else if it is lower than -30 return "Early"
+    dep_delay < 30 ~ "Kind of on time", # ielse if it is lower than 30...
+    TRUE ~ "Late" # else, return "Late"
+  ))
 ```
 
 ## Improved example
 
 ```{r}
 #| output-location: slide
-#| code-line-numbers: "|1|2|3-9|10-11"
+#| code-line-numbers: "|1|2|3-8|9-10"
 some_flights <- some_flights_raw |> 
   mutate(month_name = month.name[month]) |> 
   mutate(dep_delay_cat = case_when(
     is.na(dep_delay) ~ NA_character_,
     dep_delay < -30 ~ "Early",
     dep_delay < 30 ~ "Kind of on time",
-    dep_delay < 120 ~ "Late",
-    TRUE ~ "Way too late"
+    TRUE ~ "Late"
   ) |> as.factor())
 some_flights |> 
   select(month, month_name, dep_delay, dep_delay_cat)
@@ -249,7 +413,7 @@ some_flights |>
 
 ```{r}
 #| output-location: slide
-#| code-line-numbers: "|2,4-10,12|2,3,11|13-14"
+#| code-line-numbers: "|1,2,4-9,11|3,10|12-13"
 some_flights <- some_flights |> 
   mutate(across(
     ends_with("delay"),
@@ -257,8 +421,7 @@ some_flights <- some_flights |>
       is.na(.x) ~ NA_character_,
       .x < -30 ~ "Early",
       .x < 30 ~ "Kind of on time",
-      .x < 120 ~ "Late",
-      TRUE ~ "Way too late"
+      TRUE ~ "Late"
     ) |> as.factor(),
     .names = "{.col}_cat"
   ))
@@ -266,23 +429,17 @@ some_flights |>
   select(contains("delay"))
 ```
 
-## Multiple columns at once
-
-```{r}
-some_flights |> 
-  mutate(across(where(is.character), as.factor)) |> 
-  select(where(is.factor))
-```
-
-## Motivation for this style
-
-- Shorter
-- Easier to read (once you understand the syntax)
-- Fewer "rewritings" of the variable = easier to keep track of its state
-
 # I/O
 
 ## {background-iframe="https://readr.tidyverse.org/"}
+
+## RDS, Rdata, other formats
+
+- Pros and cons of RDS
+
+- Why not Rdata
+
+- Interoperable formats (plain text and separators)
 
 # Reproducibility
 
