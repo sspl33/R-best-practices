@@ -1,0 +1,13 @@
+/*-- scss:defaults --*/
+/* see https://www.vscentrum.be/presskit */
+
+$body-bg: #f1f2f2;
+$body-color: #383839;
+$presentation-heading-color: #d96c31;
+$code-block-border-color: #f28e24;
+$link-color: #e83223;
+$code-color: #f28e24;
+/*-- scss:rules --*/
+.reveal #title-slide {
+  top: 100px !important;
+}

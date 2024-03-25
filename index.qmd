@@ -1,13 +1,20 @@
 ---
 title: "Best Practices in R"
-format: revealjs
+format:
+  revealjs:
+    logo: Vlaanderen_is_supercomputing_full_17092018.png
+    theme: [default, vsc.scss]
+title-slide-attributes: 
+  data-background-image: "VSC - Combi logo.png"
+  data-background-size: contain
+  data-background-position: bottom
 author: Mariana Montes
 execute:
   echo: true
 code-annotations: select
 ---
 
-## Bad example
+## Let's start with a bad example!
 
 ```{r}
 #| eval: false
@@ -60,6 +67,10 @@ df$dep_delay_cat <- as.factor(df$dep_delay_cat)
 
 ## `{here}`
 
+:::: {.columns}
+
+::: {.column}
+
 ```{r}
 #| error: true
 library(here)
@@ -67,10 +78,19 @@ library(here)
 # i_am("another/path.txt")
 i_am("index.qmd")
 # here()
-print(dir(here()))
+print(here() |> dir() |> length()) # contents in this directory
 print(dir(here("analysis")))
 # source(here("analysis", "model.R"))
 ```
+
+:::
+
+::: {.column}
+
+![Illustration by Allison Horst.](https://cdn.myportfolio.com/45214904-6a61-4e23-98d6-b140f8654a40/57457fc3-1d2d-4a3b-a9b7-f0b62e418cd5_rw_1920.png?h=e0721f766fc8f031edeb67f7f8024595){fig-alt='A cartoon showing two paths side-by-side. On the left is a scary spooky forest, with spiderwebs and gnarled trees, with file paths written on the branches like “~/mmm/nope.csv” and “setwd(“/haha/good/luck/”), with a scared looking cute fuzzy monster running out of it. On the right is a bright, colorful path with flowers, rainbow and sunshine, with signs saying “here!” and “it’s all right here!” A monster facing away from us in a backpack and walking stick is looking toward the right path. Stylized text reads “here: find your path.”'}
+:::
+
+::::
 
 ## Git
 
@@ -446,3 +466,20 @@ some_flights |>
 ## {background-iframe="https://rstudio.github.io/renv/"}
 
 ## {background-iframe="https://reprex.tidyverse.org/"}
+
+# References
+
+## References and resources
+
+- [Tidyverse styleguide](https://style.tidyverse.org/index.html)
+
+- [Project oriented workflows](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/)
+
+- [R for Data Science (2e)](https://r4ds.hadley.nz/)
+
+- [Advanced R](https://adv-r.hadley.nz/index.html)
+
+- [Happy Git and Github for the useR](https://happygitwithr.com/)
+
+- [renv](https://rstudio.github.io/renv/articles/renv.html)
+
