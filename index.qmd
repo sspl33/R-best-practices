@@ -2,10 +2,9 @@
 title: "Best Practices in R"
 format:
   revealjs:
-    logo: Vlaanderen_is_supercomputing_full_17092018.png
     theme: [default, vsc.scss]
 title-slide-attributes: 
-  data-background-image: "VSC - Combi logo.png"
+  data-background-image: img/vsc-title-bg.png
   data-background-size: contain
   data-background-position: bottom
 author: Mariana Montes
@@ -13,6 +12,16 @@ execute:
   echo: true
 code-annotations: select
 ---
+
+## Outline
+
+- Reproducibility
+    
+- Style
+
+- Data wrangling
+    
+- I/O
 
 ## Let's start with a bad example!
 
@@ -41,7 +50,12 @@ df[i, "dep_delay_cat"] <- NA
 df$dep_delay_cat <- as.factor(df$dep_delay_cat)
 ```
 
-# `setwd()` vs projects
+# Reproducibility
+
++ `{here}`: project-oriented workflow
++ git
++ `{renv}`: virtual environments
++ `{reprex}`: Minimal **repr**oducible **ex**amples
 
 ## Avoid `setwd()`
 
@@ -88,11 +102,12 @@ print(dir(here("analysis")))
 ::: {.column}
 
 ![Illustration by Allison Horst.](https://cdn.myportfolio.com/45214904-6a61-4e23-98d6-b140f8654a40/57457fc3-1d2d-4a3b-a9b7-f0b62e418cd5_rw_1920.png?h=e0721f766fc8f031edeb67f7f8024595){fig-alt='A cartoon showing two paths side-by-side. On the left is a scary spooky forest, with spiderwebs and gnarled trees, with file paths written on the branches like “~/mmm/nope.csv” and “setwd(“/haha/good/luck/”), with a scared looking cute fuzzy monster running out of it. On the right is a bright, colorful path with flowers, rainbow and sunshine, with signs saying “here!” and “it’s all right here!” A monster facing away from us in a backpack and walking stick is looking toward the right path. Stylized text reads “here: find your path.”'}
+
 :::
 
 ::::
 
-## Git
+## git
 
 - R projects can be git repositories
 
@@ -103,12 +118,74 @@ print(dir(here("analysis")))
 <!-- Add logos of GitLab and Github, a screenshot of a diff... -->
 
 ::: footer
-
 [Happy Git With R](https://happygitwithr.com/)
+:::
+
+## `{renv}`
+
+:::: {.columns}
+
+::: {.column}
+
+```{r}
+#| eval: false
+#| code-line-numbers: "|1|2|3-4|5|6-7"
+library(renv)
+init()
+install.packages("tidyverse")
+install.packages("reprex")
+snapshot()
+# Someone else uses your project
+restore()
+```
 
 :::
 
-# Naming
+::: {.column}
+
+![](https://raw.githubusercontent.com/rstudio/renv/main/man/figures/logo.svg){height="100px"}
+
+- Can be good practice, but it's not as necessary as with Python
+- Keeps track of R and package versions
+
+:::
+::::
+
+::: footer
+[renv](https://rstudio.github.io/renv/)
+:::
+
+## `{reprex}`: Minimal reproducible examples
+
+:::: {.columns}
+
+::: {.column}
+
+```{r}
+reprex::reprex(input = "R/reprex.R")
+```
+
+:::
+
+::: {.column}
+![](https://raw.githubusercontent.com/tidyverse/reprex/main/man/figures/logo.png){height="100px"}
+:::
+
+::: {.callout-tip}
+### Clean sessions
+
+![](img/clean-session.png)
+:::
+
+## Tips for R scripts
+
+![](img/source-screenshot.png)
+
+# Style
+
++ Naming
++ Spaces and punctuation
++ Pipe
 
 ## Example
 
@@ -119,7 +196,7 @@ df<-read.csv( "Flight Subset 2013.csv")
 df$month_name = month.name[df$month]
 ```
 
-## Best practices
+## Naming: Best practices
 
 1. Beware of / avoid using existing names (e.g. `df`, `c`, `T`, `mean`)
 2. Avoid using dots (although Base R does use them)
@@ -138,22 +215,23 @@ some_flights<-read.csv(here( "data" , "nycflights13_random2000.csv"))
 some_flights$month_name = month.name[some_flights$month]
 ```
 
-# Spaces and punctuation
-
 ## Spaces and punctuation
 
 :::: {.columns}
 
 ::: {.column width="50%"}
+
 ### No spaces
 
 Apandacomesintoabar
+
 :::
 
 ::: {.column width="50%"}
 ### With spaces
 
 A panda comes into a bar
+
 :::
 
 ::::
@@ -166,12 +244,14 @@ A panda comes into a bar
 ### No commas
 
 ...eats shoots and leaves.
+
 :::
 
 ::: {.column width="50%"}
 ### With commas
 
 ...eats, shoots, and leaves.
+
 :::
 
 ::::
@@ -197,9 +277,9 @@ if(abs(i)>30){print (some_flights $ dep_delay [ i ])}
 
 :::: {.columns}
 ::: {.column width="50%"}
-- No spaces between `()` and text inside
+- No spaces between `()` and text inside.
 - Use `""` instead of `''` unless there is already `""` inside.
-- The assignment operator in R is ` <- ` ^[Use `Alt+-`!]
+- The assignment operator in R is ` <- `. ^[Use `Alt+-` / `⌥+-`!]
 - The assignment operator and infix operators should be surrounded by spaces.
 :::
 
@@ -212,6 +292,111 @@ if(abs(i)>30){print (some_flights $ dep_delay [ i ])}
 :::
 
 ::::
+
+## Improved example {auto-animate=true}
+
+```r
+some_flights<-read.csv(here( 'data' , "nycflights13_random2000.csv"))
+some_flights$month_name=month.name[some_flights$month]
+for(i in 1 : length(some_flights$dep_delay)){
+if(abs(i)>30){print (some_flights $ dep_delay [ i ])}
+}
+```
+
+## Improved example {auto-animate=true}
+
+```r
+some_flights <- read.csv(here("data", "nycflights13_random2000.csv"))
+some_flights$month_name=month.name[some_flights$month]
+for(i in 1 : length(some_flights$dep_delay)){
+if(abs(i)>30){print (some_flights $ dep_delay [ i ])}
+}
+```
+
+## Improved example {auto-animate=true}
+
+```r
+some_flights <- read.csv(here("data", "nycflights13_random2000.csv"))
+some_flights$month_name <- month.name[some_flights$month]
+for(i in 1 : length(some_flights$dep_delay)){
+if(abs(i)>30){print (some_flights $ dep_delay [ i ])}
+}
+```
+
+## Improved example {auto-animate=true}
+
+```r
+some_flights <- read.csv(here("data", "nycflights13_random2000.csv"))
+some_flights$month_name <- month.name[some_flights$month]
+for (i in 1:length(some_flights$dep_delay)){
+if(abs(i)>30){print (some_flights $ dep_delay [ i ])}
+}
+```
+
+## Improved example {auto-animate=true}
+
+```r
+some_flights <- read.csv(here("data", "nycflights13_random2000.csv"))
+some_flights$month_name <- month.name[some_flights$month]
+for (i in seq_along(some_flights$dep_delay)){
+  if (abs(i) > 30) {
+    print (some_flights $ dep_delay [ i ])
+  }
+}
+```
+
+## Improved example {auto-animate=true}
+
+```r
+some_flights <- read.csv(here("data", "nycflights13_random2000.csv"))
+some_flights$month_name <- month.name[some_flights$month]
+for (i in seq_along(some_flights$dep_delay)){
+  if (abs(i) > 30) {
+    print(some_flights$dep_delay[i])
+  }
+}
+```
+
+## Interlude: `seq_along(x)` vs `1:length(x)`
+
+```{r}
+x <- c("a", "b", "c")
+y <- c()
+print(length(y))
+```
+
+If the vector is not empty, both approaches work.
+
+```{r}
+#| output-location: fragment
+for (i in seq_along(x)) {
+  print(x[[i]])
+}
+```
+
+```{r}
+#| output-location: fragment
+for (i in 1:length(x)) {
+  print(x[[i]])
+}
+```
+
+If the vector is empty, though...
+
+```{r}
+#| output-location: fragment
+for (i in seq_along(y)) {
+  print(y[[i]])
+}
+```
+
+```{r}
+#| output-location: fragment
+for (i in 1:length(y)) {
+  print(y[[i]])
+}
+```
+
 
 ```{r}
 #| eval: false
@@ -233,9 +418,7 @@ for (i in 1:length(some_flights$dep_delay)) {
 
 :::
 
-# The pipe
-
-## Example
+## Pipe
 
 ```{r}
 #| eval: false
@@ -271,50 +454,45 @@ some_flights_partial <- some_flights[c("month_name", "carrier", "tailnum", "orig
     
 - Copying parts in other variables: what about memory?!
 
-## Best practices
 
-- Use the pipe (`{magrittr}`'s `%>%` or R's `|>`) to chain mutations to the same object. ^[Use `Ctrl+Shitf+M`!]
+::: {.callout-tip}
+### Use the pipe!
 
-- Use `{dplyr}` functions to manipulate one or several columns at a time:
+- `{magrittr}`'s `%>%` or R's `|>`
 
-    + `mutate()` to create new columns or modify existing ones
-    + `filter()` to select specific rows
-    + `select()` to select specific columns
+Keyboard shortcuts:  `Ctrl+Shitf+M` / `⇧+⌘+M`
+
+:::
 
 
-## Improved example
+::: {.notes}
 
-```{r}
-library(dplyr)
-library(readr)
-some_flights_raw <- read_csv(here("data", "nycflights13_random2000.csv"))
-some_flights_raw # specific state to which you might want to return
-```
+Particularly useful in data wrangling and with tidyverse: the output of one function is the input of the next!
+So, we look at the solution in the next section.
+
+:::
+
+# Data wrangling
+
++ Manipulating several columns at once
++ Vectorization
++ Turning quantitative values into categories
 
 ## Multiple columns at once
 
 ```{r}
-some_flights <- some_flights_raw |> 
-  mutate(across(where(is.character), as.factor))
-some_flights |> select(where(is.factor))
+library(dplyr)
+library(readr)
+some_flights_raw <- read_csv(here("data", "nycflights13_random2000.csv")) # <1>
+some_flights <- some_flights_raw |>                                       # <2>
+  mutate(across(where(is.character), as.factor))                          # <3>
+some_flights |> select(where(is.factor))                                  # <4>
 ```
 
-
-# Functional programming
-
-```
-for (i in 1:length(some_flights$dep_delay)) {
-  if(is.na(some_flights$dep_delay[[i]])) {
-    some_flights[i, "dep_delay_cat"] <- NA
-  } else if (df$dep_delay[[i]] < -30) {
-    some_flights[i, "dep_delay_cat"] <- "Early"
-  } else if(df$dep_delay[[i]] < 30){
-    some_flights[i, "dep_delay_cat"] <- "Kind of on time"
-  } else {
-    some_flights[i, "dep_delay_cat"] <- "Late"
-  }
-}
-```
+1. Specific state to which you might want to return
+2. New variable for a new state
+3. Apply the same transformation to multiple columns
+4. Inspect a subset of columns based on a condition.
 
 ## R and vectors
 
@@ -327,45 +505,81 @@ set.seed(7)
 (character_vector <- c("a", "character", "vector"))
 (numeric_vector <- rnorm(5))
 (logical_vector <- sample(c(TRUE, FALSE), 5, replace=TRUE))
-(a_list <- list(1, TRUE, list("list", "of", "lists")))
 ```
 
 ## Vectorized functions
 
 ```{r}
 toupper(character_vector)
-paste(character_vector, ":", toupper(character_vector))
+paste0(character_vector, ": ", toupper(character_vector))
 numeric_vector * 4
 ```
 
 ## Working with lists
 
 ```{r}
+(a_list <- list(1, TRUE, list("list", "of", "lists")))
+```
+
+```{r}
 class(a_list)
-# get class of each item with a for loop
+```
+
+Get class of each item with a for loop:
+
+```{r}
 classes <- vector("character", length(a_list))
 for (i in seq_along(a_list)) {
   classes[[i]] <- class(a_list[[i]])
 }
-# with a mapping function
+classes
+```
+
+Get the class of each item with a mapping function:
+
+```{r}
 purrr::map_chr(a_list, class)
 ```
 
 ## Match vectors with indices
 
 ```{r}
+#| output-location: fragment
 month.name
+```
+
+```{r}
+#| output-location: fragment
 month.name[[3]]
+```
+
+```{r}
+#| output-location: fragment
 month.name[c(4, 6, 7)]
+```
+
+```{r}
+#| output-location: fragment
 head(some_flights$month)
+```
+
+```{r}
+#| output-location: fragment
 month.name[head(some_flights$month)]
-head(month.name[some_flights$month])
+```
+
+## Match vectors with indices
+
+```{r}
+#| output-location: fragment
+some_flights |>
+  mutate(month_name = month.name[month]) |> 
+  select(month_name, month)
 ```
 
 ## Turn numeric into categorical: `case_when()`
 
-```{r}
-#| eval: false
+```r
 for (i in 1:length(some_flights$dep_delay)) {
   if(is.na(some_flights$dep_delay[[i]])) {
     some_flights[i, "dep_delay_cat"] <- NA
@@ -379,6 +593,16 @@ for (i in 1:length(some_flights$dep_delay)) {
 }
 ```
 
+## `if_else()`
+
+```{r}
+some_flights |> 
+  mutate(dep_delay_cat = if_else(is.na(dep_delay), NA, "We have a value")) |> 
+  slice_sample(n = 5, by = dep_delay_cat) |> 
+  select(starts_with("dep_delay"))
+```
+
+
 ## `case_when()` {auto-animate=true}
 
 ```r
@@ -394,7 +618,7 @@ some_flights |>
 some_flights |> 
   mutate(dep_delay_cat = case_when(
     # condition ~ output
-    is.na(dep_delay) ~ NA_character_, # if it is NA, return NA
+    is.na(dep_delay) ~ NA, # if it is NA, return NA
     TRUE ~ "Late" # else, return "Late"
   ))
 ```
@@ -405,7 +629,7 @@ some_flights |>
 some_flights |> 
   mutate(dep_delay_cat = case_when(
     # condition ~ output
-    is.na(dep_delay) ~ NA_character_, # if it is NA, return NA
+    is.na(dep_delay) ~ NA, # if it is NA, return NA
     dep_delay < -30 ~ "Early", # else if it is lower than -30 return "Early"
     dep_delay < 30 ~ "Kind of on time", # ielse if it is lower than 30...
     TRUE ~ "Late" # else, return "Late"
@@ -416,64 +640,210 @@ some_flights |>
 
 ```{r}
 #| output-location: slide
-#| code-line-numbers: "|1|2|3-8|9-10"
+#| code-line-numbers: "|1|2|3-8|9|11-12"
 some_flights <- some_flights_raw |> 
-  mutate(month_name = month.name[month]) |> 
-  mutate(dep_delay_cat = case_when(
-    is.na(dep_delay) ~ NA_character_,
-    dep_delay < -30 ~ "Early",
-    dep_delay < 30 ~ "Kind of on time",
-    TRUE ~ "Late"
-  ) |> as.factor())
+  mutate(
+    month_name = month.name[month],                    # <1>
+    dep_delay_cat = case_when(                         # <2>
+      is.na(dep_delay) ~ NA,                           # <2>
+      dep_delay < -30 ~ "Early",                       # <2>
+      dep_delay < 30 ~ "Kind of on time",              # <2>
+      TRUE ~ "Late"                                    # <2>
+      ),                                               # <2>
+    across(where(is.character), as.factor)             # <3>
+  )
 some_flights |> 
   select(month, month_name, dep_delay, dep_delay_cat)
+```
+
+1. Create a column with the names of the months based on the number
+2. Make a categorical version of `dep_delay`.
+3. Turn all character columns into factors
+
+## Multiple columns at once {auto-animate=true}
+
+```r
+some_flights |> 
+  mutate(
+    dep_delay_cat = case_when(
+      # condition ~ output
+      is.na(dep_delay) ~ NA, # if it is NA, return NA
+      dep_delay < -30 ~ "Early", # else if it is lower than -30 return "Early"
+      dep_delay < 30 ~ "Kind of on time", # ielse if it is lower than 30...
+      TRUE ~ "Late" # else, return "Late"
+    ) |> as.factor()
+  )
+```
+
+## Multiple columns at once {auto-animate=true}
+
+```r
+some_flights |> 
+  mutate(
+    across(ends_with("delay"),
+      # condition ~ output
+      is.na(dep_delay) ~ NA, # if it is NA, return NA
+      dep_delay < -30 ~ "Early", # else if it is lower than -30 return "Early"
+      dep_delay < 30 ~ "Kind of on time", # ielse if it is lower than 30...
+      TRUE ~ "Late" # else, return "Late"
+    ) |> as.factor(),
+    .names = "{.col}_cat"
+  )
+```
+
+## Multiple columns at once {auto-animate=true}
+
+```r
+some_flights |> 
+  mutate(
+    across(ends_with("delay"),
+      # condition ~ output
+      is.na(dep_delay) ~ NA, # if it is NA, return NA
+      dep_delay < -30 ~ "Early", # else if it is lower than -30 return "Early"
+      dep_delay < 30 ~ "Kind of on time", # ielse if it is lower than 30...
+      TRUE ~ "Late" # else, return "Late"
+    ) |> factor(levels = c("Early", "Kind of on time", "Late")),
+    .names = "{.col}_cat"
+  )
 ```
 
 ## Multiple columns at once
 
 ```{r}
-#| output-location: slide
-#| code-line-numbers: "|1,2,4-9,11|3,10|12-13"
+#| echo: false
 some_flights <- some_flights |> 
   mutate(across(
     ends_with("delay"),
     ~ case_when(
-      is.na(.x) ~ NA_character_,
+      is.na(.x) ~ NA,
       .x < -30 ~ "Early",
       .x < 30 ~ "Kind of on time",
       TRUE ~ "Late"
-    ) |> as.factor(),
+    ) |> factor(levels = c("Early", "Kind of on time", "Late")),
     .names = "{.col}_cat"
   ))
 some_flights |> 
   select(contains("delay"))
 ```
 
+
 # I/O
 
-## {background-iframe="https://readr.tidyverse.org/"}
+- `{readr}`
+- File formats / extensions
 
-## RDS, Rdata, other formats
+## `{readr}`
 
-- Pros and cons of RDS
+```{r}
+cat_file_name <- here("data", "flights_with_factors.csv")
+some_flights |>
+  select(carrier, flight, month_name, time_hour, contains("delay")) |> 
+  write_csv(cat_file_name)
+readLines(cat_file_name, n = 4)
+```
 
-- Why not Rdata
+```{r}
+(cat_flights <- read_csv(cat_file_name))
+```
 
-- Interoperable formats (plain text and separators)
+## Parsing columns
 
-# Reproducibility
+```{r}
+spec_csv(cat_file_name)
+```
 
-## {background-iframe="https://rstudio.github.io/renv/"}
+```{r}
+#| code-line-numbers: "|3-5|6-8|9"
+delay_levels <- c("Early", "Kind of on time", "Late")
+read_csv(cat_file_name, col_types = list(
+  month_name = col_factor(levels = month.name),
+  dep_delay_cat = col_factor(levels = delay_levels, ordered = TRUE),
+  arr_delay_cat = col_factor(levels = delay_levels, ordered = TRUE),
+  dep_delay = "i",
+  arr_delay = "i",
+  time_hour = "T",
+  .default = "c")
+)
 
-## {background-iframe="https://reprex.tidyverse.org/"}
+```
+
+
+## X-separated values...
+
+:::: {.columns}
+
+::: {.column}
+
+Values separated by spaces (`readr::read_table()`)
+
+```
+col1 col2 col3
+1.5 2.2 3
+4 5 6
+7 8 9
+```
+:::
+
+::: {.column}
+
+**C**omma **s**eparated **v**alues (`readr::read_csv()`)
+
+```
+col1,col2,col3
+1.5,2.2,3
+4,5,6
+7,8,9
+```
+:::
+
+::::
+
+:::: {.columns}
+
+::: {.column}
+
+Values separated by semicolons (`readr::read_csv2()`)
+
+```
+col1;col2;col3
+1,5;2,2;3
+4;5;6
+7;8;9
+```
+:::
+
+::: {.column}
+
+**T**ab-**s**eparated **v**alues (`readr::read_tsv()`)
+
+```{r}
+#| echo: false
+#| results: asis
+cat("col1\tcol2\tcol3")
+cat("1,5\tsomething;semicolon\t3")
+cat("text,with,commas\twha a a t\t6")
+cat("7\t8\t9")
+```
+:::
+
+::::
+
+
+## {background-iframe="https://readr.tidyverse.org/#alternatives"}
+
+## .rds, .rda, .Rdata, other formats
+
+File type | Save | Open | Pros | Cons
+---- | ---- | ---- | ---- | ---- 
+.rda/.Rdata^[Outside of (data) packages.] | `save(var1, var2, file="file.rda")` | `load("file.rda")` | Save multiple R objects as they are | Only R can open it.<br>Manipulate user's environment (in unpredictable ways?)
+.rds | `saveRDS(var1, "file.rds")` | `var1 <- readRDS("file.rds")` | Save single R object as it is | Only R can open it.
+.txt, .csv... | `readr::write_csv(var1, "file.csv")`... | `var1 <- readr::read_csv("file.csv")` | Plain text: interoperable | Not just any R object
 
 # References
 
-## References and resources
+## 
 
-- [Tidyverse styleguide](https://style.tidyverse.org/index.html)
-
-- [Project oriented workflows](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/)
+### Online books
 
 - [R for Data Science (2e)](https://r4ds.hadley.nz/)
 
@@ -481,5 +851,14 @@ some_flights |>
 
 - [Happy Git and Github for the useR](https://happygitwithr.com/)
 
-- [renv](https://rstudio.github.io/renv/articles/renv.html)
+### Blogposts
 
+- [Tidyverse styleguide](https://style.tidyverse.org/index.html)
+
+- [Project oriented workflows](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/)
+
+## YouTube
+
+- [Jenny Bryan | Object of type 'closure' is not subsettable](https://www.youtube.com/watch?v=vgYS-F8opgE&ab_channel=PositPBC)
+
+- [Hadley Wickham | The Joy of functional programming](https://www.youtube.com/watch?v=bzUmK0Y07ck&list=PLUhtb0BvZvZQpy44ksG0JsySCDqmf8pZ4&index=19&ab_channel=AssociationforComputingMachinery%28ACM%29)
