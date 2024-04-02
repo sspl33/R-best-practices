@@ -57,33 +57,49 @@ df$dep_delay_cat <- as.factor(df$dep_delay_cat)
 + `{renv}`: virtual environments
 + `{reprex}`: Minimal **repr**oducible **ex**amples
 
-## Avoid `setwd()`
+## {.smaller}
 
-- Absolute paths are particular to a specific location
+:::: {.columns}
 
-- The path needs to be updated:
+::: {.column}
 
-  + if you move your script around
+### `setwd()`
 
-  + if you work from a different device, a server...
+- "/" or "\\\\" depending on the OS!
+
+The (absolute) path needs to be updated WHEN you:
+
+- move your script around
+
+- work from a different device, a server...
   
-  + if you share your script with someone else
+- share your script with someone else
   
-## Project-based workflow
+:::
+::: {.column}
+
+### Project-based workflow
 
 - R projects, git repositories...
 
-- Relevant code and data together
+- Portable: relevant code and data together
 
 - Paths relative to the root of a project
 
-<!-- Add screenshot of RStudio and the projects? -->
+![](img/rproj.png){width=150}
+
+:::
+::::
+
+::: footer
+[Project oriented workflows](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/)
+:::
 
 ## `{here}`
 
 :::: {.columns}
 
-::: {.column}
+::: {.column width="60%"}
 
 ```{r}
 #| error: true
@@ -99,7 +115,7 @@ print(dir(here("analysis")))
 
 :::
 
-::: {.column}
+::: {.column width="40%"}
 
 ![Illustration by Allison Horst.](https://cdn.myportfolio.com/45214904-6a61-4e23-98d6-b140f8654a40/57457fc3-1d2d-4a3b-a9b7-f0b62e418cd5_rw_1920.png?h=e0721f766fc8f031edeb67f7f8024595){fig-alt='A cartoon showing two paths side-by-side. On the left is a scary spooky forest, with spiderwebs and gnarled trees, with file paths written on the branches like “~/mmm/nope.csv” and “setwd(“/haha/good/luck/”), with a scared looking cute fuzzy monster running out of it. On the right is a bright, colorful path with flowers, rainbow and sunshine, with signs saying “here!” and “it’s all right here!” A monster facing away from us in a backpack and walking stick is looking toward the right path. Stylized text reads “here: find your path.”'}
 
@@ -107,7 +123,15 @@ print(dir(here("analysis")))
 
 ::::
 
+::: footer
+[`{here}`](https://here.r-lib.org/)
+:::
+
 ## git
+
+:::: {.columns}
+
+::: {.column width="60%"}
 
 - R projects can be git repositories
 
@@ -115,7 +139,19 @@ print(dir(here("analysis")))
 
 - Share and collaborate via GitLab, Github...
 
-<!-- Add logos of GitLab and Github, a screenshot of a diff... -->
+:::
+::: {.column width="40%" layout="[[100], [45,45]]"}
+
+
+![](img/git.png)
+
+![](img/github-mark.png)
+
+![](img/gitlab-logo-500.png)
+
+:::
+
+::::
 
 ::: footer
 [Happy Git With R](https://happygitwithr.com/)
@@ -125,7 +161,10 @@ print(dir(here("analysis")))
 
 :::: {.columns}
 
-::: {.column}
+::: {.column width="75%"}
+
+- Can be good practice, but it's not as necessary as with Python
+- Keeps track of R and package versions
 
 ```{r}
 #| eval: false
@@ -141,45 +180,87 @@ restore()
 
 :::
 
-::: {.column}
+::: {.column width="25%"}
 
-![](https://raw.githubusercontent.com/rstudio/renv/main/man/figures/logo.svg){height="100px"}
-
-- Can be good practice, but it's not as necessary as with Python
-- Keeps track of R and package versions
+![](https://raw.githubusercontent.com/rstudio/renv/main/man/figures/logo.svg){height="150px"}
 
 :::
 ::::
 
 ::: footer
-[renv](https://rstudio.github.io/renv/)
+[`{renv}`](https://rstudio.github.io/renv/)
 :::
 
 ## `{reprex}`: Minimal reproducible examples
 
-:::: {.columns}
-
-::: {.column}
-
 ```{r}
-reprex::reprex(input = "R/reprex.R")
+#| include: false
+unlink(here("R", "sth_is_wrong_reprex.md"))
+unlink(here("R", "sth_is_wrong_reprex.R"))
+print_regex <- function(original_name) {
+  change_extension <- function(name, new_ext) {
+    gsub(".R$", paste0("_reprex.", new_ext), name)
+  }
+  if (file.exists(here("R", change_extension(original_name, "md")))) {
+    change_extension(original_name, "md")
+  } else {
+    change_extension(original_name, "R")
+  }
+}
 ```
 
-:::
+```{r}
+#| message: false
+#| echo: false
+code_to_reproduce <- "sth_is_wrong.R"
+reprex::reprex(input = here("R", code_to_reproduce))
+rpx_file <- print_regex(code_to_reproduce)
+```
 
-::: {.column}
-![](https://raw.githubusercontent.com/tidyverse/reprex/main/man/figures/logo.png){height="100px"}
-:::
+There is some code to reproduce...
 
-::: {.callout-tip}
-### Clean sessions
+```{r filename=code_to_reproduce}
+#| eval: false
+library(nycflights13)
+dat <- head(flights)
+df$flights
+```
 
-![](img/clean-session.png)
+. . .
+
+In the console (or with the RStudio add-on):
+
+```r
+library(reprex)
+reprex(here("R", "`r code_to_reproduce`"))
+```
+
+## ![](https://raw.githubusercontent.com/tidyverse/reprex/main/man/figures/logo.png){height="100px"}
+
+::: {.callout-warning icon=false}
+### `r rpx_file` is created
+
+```{r}
+#| echo: false
+#| results: asis
+readLines(here("R", rpx_file)) |> cat(sep="\n")
+```
 :::
 
 ## Tips for R scripts
 
+:::: {.columns}
+
+::: {.column width="60%"}
 ![](img/source-screenshot.png)
+:::
+
+::: {.column width="40%"}
+
+![](img/clean-session.png)
+:::
+
+::::
 
 # Style
 
@@ -339,6 +420,16 @@ if(abs(i)>30){print (some_flights $ dep_delay [ i ])}
 some_flights <- read.csv(here("data", "nycflights13_random2000.csv"))
 some_flights$month_name <- month.name[some_flights$month]
 for (i in seq_along(some_flights$dep_delay)){
+if(abs(i)>30){print (some_flights $ dep_delay [ i ])}
+}
+```
+
+## Improved example {auto-animate=true}
+
+```r
+some_flights <- read.csv(here("data", "nycflights13_random2000.csv"))
+some_flights$month_name <- month.name[some_flights$month]
+for (i in seq_along(some_flights$dep_delay)){
   if (abs(i) > 30) {
     print (some_flights $ dep_delay [ i ])
   }
@@ -357,15 +448,18 @@ for (i in seq_along(some_flights$dep_delay)){
 }
 ```
 
-## Interlude: `seq_along(x)` vs `1:length(x)`
+## Interlude: `seq_along(x)` vs `1:length(x)` {.smaller}
 
 ```{r}
 x <- c("a", "b", "c")
 y <- c()
-print(length(y))
+length(y)
 ```
 
-If the vector is not empty, both approaches work.
+:::: {.columns}
+
+::: {.column}
+### Not empty vector `x`
 
 ```{r}
 #| output-location: fragment
@@ -381,7 +475,10 @@ for (i in 1:length(x)) {
 }
 ```
 
-If the vector is empty, though...
+:::
+
+::: {.column}
+### Empty vector `y`
 
 ```{r}
 #| output-location: fragment
@@ -390,6 +487,8 @@ for (i in seq_along(y)) {
 }
 ```
 
+<br>
+
 ```{r}
 #| output-location: fragment
 for (i in 1:length(y)) {
@@ -397,26 +496,9 @@ for (i in 1:length(y)) {
 }
 ```
 
-
-```{r}
-#| eval: false
-library(here)
-i_am("index.qmd")
-
-some_flights <- read.csv(here("data", "nycflights13_random2000.csv"))
-some_flights$month_name <- month.name[some_flights$month]
-for (i in 1:length(some_flights$dep_delay)) {
-  if (abs(i) > 30) {
-    print(some_flights$dep_delay[[i]])
-  }
-}
-```
-
-::: footer
-
-[Tidyverse styleguide](https://style.tidyverse.org/syntax.html)
-
 :::
+
+::::
 
 ## Pipe
 
@@ -454,6 +536,7 @@ some_flights_partial <- some_flights[c("month_name", "carrier", "tailnum", "orig
     
 - Copying parts in other variables: what about memory?!
 
+## Approach
 
 ::: {.callout-tip}
 ### Use the pipe!
@@ -463,6 +546,8 @@ some_flights_partial <- some_flights[c("month_name", "carrier", "tailnum", "orig
 Keyboard shortcuts:  `Ctrl+Shitf+M` / `⇧+⌘+M`
 
 :::
+
+(We'll see it in action in the next section)
 
 
 ::: {.notes}
@@ -493,53 +578,6 @@ some_flights |> select(where(is.factor))                                  # <4>
 2. New variable for a new state
 3. Apply the same transformation to multiple columns
 4. Inspect a subset of columns based on a condition.
-
-## R and vectors
-
-```{r}
-#| include: false
-set.seed(7)
-```
-
-```{r}
-(character_vector <- c("a", "character", "vector"))
-(numeric_vector <- rnorm(5))
-(logical_vector <- sample(c(TRUE, FALSE), 5, replace=TRUE))
-```
-
-## Vectorized functions
-
-```{r}
-toupper(character_vector)
-paste0(character_vector, ": ", toupper(character_vector))
-numeric_vector * 4
-```
-
-## Working with lists
-
-```{r}
-(a_list <- list(1, TRUE, list("list", "of", "lists")))
-```
-
-```{r}
-class(a_list)
-```
-
-Get class of each item with a for loop:
-
-```{r}
-classes <- vector("character", length(a_list))
-for (i in seq_along(a_list)) {
-  classes[[i]] <- class(a_list[[i]])
-}
-classes
-```
-
-Get the class of each item with a mapping function:
-
-```{r}
-purrr::map_chr(a_list, class)
-```
 
 ## Match vectors with indices
 
@@ -640,7 +678,7 @@ some_flights |>
 
 ```{r}
 #| output-location: slide
-#| code-line-numbers: "|1|2|3-8|9|11-12"
+#| code-line-numbers: "|1|2|3|4-9|10|12-13"
 some_flights <- some_flights_raw |> 
   mutate(
     month_name = month.name[month],                    # <1>
@@ -666,10 +704,9 @@ some_flights |>
 some_flights |> 
   mutate(
     dep_delay_cat = case_when(
-      # condition ~ output
-      is.na(dep_delay) ~ NA, # if it is NA, return NA
-      dep_delay < -30 ~ "Early", # else if it is lower than -30 return "Early"
-      dep_delay < 30 ~ "Kind of on time", # ielse if it is lower than 30...
+      is.na(dep_delay) ~ NA,
+      dep_delay < -30 ~ "Early",
+      dep_delay < 30 ~ "Kind of on time",
       TRUE ~ "Late" # else, return "Late"
     ) |> as.factor()
   )
@@ -681,11 +718,10 @@ some_flights |>
 some_flights |> 
   mutate(
     across(ends_with("delay"),
-      # condition ~ output
-      is.na(dep_delay) ~ NA, # if it is NA, return NA
-      dep_delay < -30 ~ "Early", # else if it is lower than -30 return "Early"
-      dep_delay < 30 ~ "Kind of on time", # ielse if it is lower than 30...
-      TRUE ~ "Late" # else, return "Late"
+      is.na(dep_delay) ~ NA,
+      dep_delay < -30 ~ "Early",
+      dep_delay < 30 ~ "Kind of on time",
+      TRUE ~ "Late"
     ) |> as.factor(),
     .names = "{.col}_cat"
   )
@@ -697,11 +733,10 @@ some_flights |>
 some_flights |> 
   mutate(
     across(ends_with("delay"),
-      # condition ~ output
-      is.na(dep_delay) ~ NA, # if it is NA, return NA
-      dep_delay < -30 ~ "Early", # else if it is lower than -30 return "Early"
-      dep_delay < 30 ~ "Kind of on time", # ielse if it is lower than 30...
-      TRUE ~ "Late" # else, return "Late"
+      is.na(dep_delay) ~ NA,
+      dep_delay < -30 ~ "Early",
+      dep_delay < 30 ~ "Kind of on time",
+      TRUE ~ "Late"
     ) |> factor(levels = c("Early", "Kind of on time", "Late")),
     .names = "{.col}_cat"
   )
@@ -732,18 +767,20 @@ some_flights |>
 - `{readr}`
 - File formats / extensions
 
-## `{readr}`
+## Comma-separated values
 
 ```{r}
 cat_file_name <- here("data", "flights_with_factors.csv")
 some_flights |>
   select(carrier, flight, month_name, time_hour, contains("delay")) |> 
   write_csv(cat_file_name)
-readLines(cat_file_name, n = 4)
+readLines(cat_file_name, n = 10)
 ```
 
+## `{readr}`
+
 ```{r}
-(cat_flights <- read_csv(cat_file_name))
+read_csv(cat_file_name)
 ```
 
 ## Parsing columns
@@ -751,6 +788,8 @@ readLines(cat_file_name, n = 4)
 ```{r}
 spec_csv(cat_file_name)
 ```
+
+## Parsing when reading
 
 ```{r}
 #| code-line-numbers: "|3-5|6-8|9"
@@ -763,7 +802,7 @@ read_csv(cat_file_name, col_types = list(
   arr_delay = "i",
   time_hour = "T",
   .default = "c")
-)
+) |> head(5)
 
 ```
 
@@ -798,6 +837,8 @@ col1,col2,col3
 
 ::::
 
+<hr>
+
 :::: {.columns}
 
 ::: {.column}
@@ -819,10 +860,10 @@ col1;col2;col3
 ```{r}
 #| echo: false
 #| results: asis
-cat("col1\tcol2\tcol3")
-cat("1,5\tsomething;semicolon\t3")
-cat("text,with,commas\twha a a t\t6")
-cat("7\t8\t9")
+cat("    col1\tcol2\tcol3\n")
+cat("    1,5\tsomething;semicolon\t3\n")
+cat("    text,with,commas\twha a a t\t6\n")
+cat("    7\t8\t9\n")
 ```
 :::
 
@@ -831,13 +872,13 @@ cat("7\t8\t9")
 
 ## {background-iframe="https://readr.tidyverse.org/#alternatives"}
 
-## .rds, .rda, .Rdata, other formats
+## .rds, .rda, .Rdata, other formats {.smaller}
 
 File type | Save | Open | Pros | Cons
----- | ---- | ---- | ---- | ---- 
-.rda/.Rdata^[Outside of (data) packages.] | `save(var1, var2, file="file.rda")` | `load("file.rda")` | Save multiple R objects as they are | Only R can open it.<br>Manipulate user's environment (in unpredictable ways?)
-.rds | `saveRDS(var1, "file.rds")` | `var1 <- readRDS("file.rds")` | Save single R object as it is | Only R can open it.
-.txt, .csv... | `readr::write_csv(var1, "file.csv")`... | `var1 <- readr::read_csv("file.csv")` | Plain text: interoperable | Not just any R object
+---- | ---- | ---- | ------ | -------
+.rda/.Rdata^[Outside of (data) packages.] | `save()` | `load()` | Save multiple R objects as they are | Only R can open it; modifies variables
+.rds | `saveRDS()` | `readRDS()` | Save single R object as it is | Only R can open it.
+.txt, .csv... | `write.csv()`... | `read.csv()`... | Plain text: interoperable | Not just any R object
 
 # References
 
@@ -856,6 +897,8 @@ File type | Save | Open | Pros | Cons
 - [Tidyverse styleguide](https://style.tidyverse.org/index.html)
 
 - [Project oriented workflows](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/)
+
+- [A project from scratch](https://marianamontes.netlify.app/post/a-project-from-scratch/) <!-- This is mine -->
 
 ## YouTube
 

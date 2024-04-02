@@ -12,3 +12,16 @@ $code-color: #f28e24;
 /*.reveal #title-slide {
   top: 100px !important;
 }*/
+
+.reveal .with-border {
+  margin: 5px;
+  border: solid;
+  border-color: $code-color;
+  border-width: 1px;
+  padding: 5px;
+}
+
+.reveal section#tips-for-r-scripts img {
+  box-shadow: 5px 5px 4px #d96c31;
+  border: 1px solid #d96c31;
+}
