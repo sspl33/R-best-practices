@@ -27,28 +27,38 @@ code-annotations: select
 
 ```{r}
 #| eval: false
-#| code-line-numbers: "|1"
 
-setwd("C:\\Users\\username\\My Projects\\R for best practices")
+setwd("C:\\Users\\username\\My Projects\\R for best practices") # <1>
 
-df<-read.csv( "Flight Subset 2013.csv")
-df$month_name = month.name[df$month]
-df$carrier <- as.factor(df$carrier)
-df$tailnum <- as.factor(df$tailnum)
-df$origin <- as.factor(df$origin)
-for(i in 1:length(df$dep_delay)){
-if(is.na(df$dep_delay[[i]])){
-df[i, "dep_delay_cat"] <- NA
-}else if(df$dep_delay[[i]] < -30){
-    df[i, "dep_delay_cat"] <- "Early"
-       }else if(df$dep_delay[[i]] < 30){
-    df[i, "dep_delay_cat"] <- "Kind of on time"
-  } else {
-    df[i, "dep_delay_cat"] <- "Late"
-  }
-}
-df$dep_delay_cat <- as.factor(df$dep_delay_cat)
+df<-read.csv( "Flight Subset 2013.csv")                         # <1>
+df$month_name = month.name[df$month]                            # <2>
+df$carrier <- as.factor(df$carrier)                             # <3>
+df$tailnum <- as.factor(df$tailnum)                             # <3>
+df$origin <- as.factor(df$origin)                               # <3>
+for(i in 1:length(df$dep_delay)){                               # <4>
+if(is.na(df$dep_delay[[i]])){                                   # <5>
+df[i, "dep_delay_cat"] <- NA                                    # <5>
+}else if(df$dep_delay[[i]] < -30){                              # <5>
+    df[i, "dep_delay_cat"] <- "Early"                           # <5>
+       }else if(df$dep_delay[[i]] < 30){                        # <5>
+    df[i, "dep_delay_cat"] <- "Kind of on time"                 # <5>
+  } else {                                                      # <5>
+    df[i, "dep_delay_cat"] <- "Late"                            # <5>
+  }                                                             # <5>
+}                                                               # <5>
+df$dep_delay_cat <- as.factor(df$dep_delay_cat)                 # <6>
 ```
+
+1. Naming conventions
+2. Assignment operator
+3. Rewriting the same variable, and with the same operation!
+4. `1:length(x)` (and spaces)
+5. `for` loop to create a categorical variable (and spaces)
+6. Again 3!
+
+::: notes
+Also: not using the pipe
+:::
 
 # Reproducibility
 
@@ -102,15 +112,13 @@ The (absolute) path needs to be updated WHEN you:
 ::: {.column width="60%"}
 
 ```{r}
-#| error: true
 library(here)
 
-# i_am("another/path.txt")
 i_am("index.qmd")
 # here()
-print(here() |> dir() |> length()) # contents in this directory
-print(dir(here("analysis")))
-# source(here("analysis", "model.R"))
+here() |> dir() |> length() |> print()
+here("analysis") |> dir() |> print()  
+source(here("analysis", "model.R"))   
 ```
 
 :::
@@ -122,6 +130,13 @@ print(dir(here("analysis")))
 :::
 
 ::::
+
+::: notes
+1. Nothing happens as long as the path is the path of this file relative to the root of the project.
+2. Get the number of files/directories in the root of the project
+3. Get the contents of the "analysis" directory
+4. Source the "model.R" script in the "analysis" directory.
+:::
 
 ::: footer
 [`{here}`](https://here.r-lib.org/)
@@ -168,16 +183,19 @@ print(dir(here("analysis")))
 
 ```{r}
 #| eval: false
-#| code-line-numbers: "|1|2|3-4|5|6-7"
 library(renv)
-init()
-install.packages("tidyverse")
-install.packages("reprex")
-snapshot()
+init()                                # <1>
+install.packages("tidyverse")         # <2>
+install.packages("reprex")            # <2>
+snapshot()                            # <3>
 # Someone else uses your project
-restore()
+restore()                             # <4>
 ```
 
+1. Initialize your virtual environment.
+2. Install some packages (in the environment).
+3. Register the status.
+4. In another system, recover the status.
 :::
 
 ::: {.column width="25%"}
@@ -186,6 +204,14 @@ restore()
 
 :::
 ::::
+
+::: notes
+R users don't deal with different versions of R packages like Python users do
+with Python modules, since they are mostly centrally managed by CRAN or other
+repositories.
+But it can still be useful practice in some case, "if you really care about
+reproducibility" (in Hadley Wickham's words).
+:::
 
 ::: footer
 [`{renv}`](https://rstudio.github.io/renv/)
@@ -262,6 +288,18 @@ readLines(here("R", rpx_file)) |> cat(sep="\n")
 
 ::::
 
+::: notes
+Tips include:
+
+- Use the comment style in RStudio to generate headings with hierarchies,
+for folding but also to have an outline and quick links to different regions
+
+- Do not save .Rdata or history, so you can always restart the session in a clean
+environment (because you don't know what leftovers there are and how they can
+impact what you're doing next).
+:::
+
+
 # Style
 
 + Naming
@@ -292,7 +330,7 @@ df$month_name = month.name[df$month]
 library(here)
 i_am("index.qmd")
 
-some_flights<-read.csv(here( "data" , "nycflights13_random2000.csv"))
+some_flights<-read.csv(here( 'data' , "nycflights13_random2000.csv"))
 some_flights$month_name = month.name[some_flights$month]
 ```
 
@@ -448,7 +486,13 @@ for (i in seq_along(some_flights$dep_delay)){
 }
 ```
 
-## Interlude: `seq_along(x)` vs `1:length(x)` {.smaller}
+::: notes
+The `seq_along()` change is because it is safer in case the vector
+you use it on is empty. I have a slide about it in case it can be interesting
+to discuss, but I have hidden it.
+:::
+
+## Interlude: `seq_along(x)` vs `1:length(x)` {.smaller visibility="hidden"}
 
 ```{r}
 x <- c("a", "b", "c")
@@ -462,14 +506,12 @@ length(y)
 ### Not empty vector `x`
 
 ```{r}
-#| output-location: fragment
 for (i in seq_along(x)) {
   print(x[[i]])
 }
 ```
 
 ```{r}
-#| output-location: fragment
 for (i in 1:length(x)) {
   print(x[[i]])
 }
@@ -481,7 +523,6 @@ for (i in 1:length(x)) {
 ### Empty vector `y`
 
 ```{r}
-#| output-location: fragment
 for (i in seq_along(y)) {
   print(y[[i]])
 }
@@ -490,7 +531,6 @@ for (i in seq_along(y)) {
 <br>
 
 ```{r}
-#| output-location: fragment
 for (i in 1:length(y)) {
   print(y[[i]])
 }
@@ -504,25 +544,29 @@ for (i in 1:length(y)) {
 
 ```{r}
 #| eval: false
-#| code-line-numbers: "|1|2|3-5,17|6,8,10,12,14|18"
-some_flights <- read.csv(here("data" , "nycflights13_random2000.csv"))
+#| code-line-numbers: "|1|2|3-5,19|7,9,11,13,15|21-22"
+some_flights <- read.csv(here("data", "nycflights13_random2000.csv"))
 some_flights$month_name <- month.name[some_flights$month]
 some_flights$carrier <- as.factor(some_flights$carrier)
 some_flights$tailnum <- as.factor(some_flights$tailnum)
 some_flights$origin <- as.factor(some_flights$origin)
-for (i in 1:length(some_flights$dep_delay)) {
-  if(is.na(some_flights$dep_delay[[i]])) {
+
+for (i in seq_along(some_flights$dep_delay)) {
+  if (is.na(some_flights$dep_delay[[i]])) {
     some_flights[i, "dep_delay_cat"] <- NA
-  } else if (df$dep_delay[[i]] < -30) {
+  } else if (some_flights$dep_delay[[i]] < -30) {
     some_flights[i, "dep_delay_cat"] <- "Early"
-  } else if(df$dep_delay[[i]] < 30){
+  } else if (some_flights$dep_delay[[i]] < 30){
     some_flights[i, "dep_delay_cat"] <- "Kind of on time"
   } else {
     some_flights[i, "dep_delay_cat"] <- "Late"
   }
 }
+
 some_flights$dep_delay_cat <- as.factor(some_flights$dep_delay_cat)
-some_flights_partial <- some_flights[c("month_name", "carrier", "tailnum", "origin", "dep_delay_cat")]
+
+some_columns <- c("month_name", "carrier", "tailnum", "origin", "dep_delay_cat")
+some_flights_partial <- some_flights[some_columns]
 ```
 
 ## Problems
@@ -618,12 +662,12 @@ some_flights |>
 ## Turn numeric into categorical: `case_when()`
 
 ```r
-for (i in 1:length(some_flights$dep_delay)) {
-  if(is.na(some_flights$dep_delay[[i]])) {
+for (i in seq_along(some_flights$dep_delay)) {
+  if (is.na(some_flights$dep_delay[[i]])) {
     some_flights[i, "dep_delay_cat"] <- NA
-  } else if (df$dep_delay[[i]] < -30) {
+  } else if (some_flights$dep_delay[[i]] < -30) {
     some_flights[i, "dep_delay_cat"] <- "Early"
-  } else if(df$dep_delay[[i]] < 30){
+  } else if (some_flights$dep_delay[[i]] < 30){
     some_flights[i, "dep_delay_cat"] <- "Kind of on time"
   } else {
     some_flights[i, "dep_delay_cat"] <- "Late"
@@ -669,10 +713,43 @@ some_flights |>
     # condition ~ output
     is.na(dep_delay) ~ NA, # if it is NA, return NA
     dep_delay < -30 ~ "Early", # else if it is lower than -30 return "Early"
-    dep_delay < 30 ~ "Kind of on time", # ielse if it is lower than 30...
+    dep_delay < 30 ~ "Kind of on time", # else if it is lower than 30...
     TRUE ~ "Late" # else, return "Late"
   ))
 ```
+
+## `case_when()` vs `for` loop {.smaller}
+
+:::: {.columns}
+::: {.column width="45%"}
+
+```r
+some_flights |> 
+  mutate(dep_delay_cat = case_when(
+    is.na(dep_delay) ~ NA,
+    dep_delay < -30 ~ "Early",
+    dep_delay < 30 ~ "Kind of on time",
+    TRUE ~ "Late"
+  ))
+```
+:::
+::: {.column width="55%"}
+
+```r
+for (i in seq_along(some_flights$dep_delay)) {
+  if (is.na(some_flights$dep_delay[[i]])) {
+    some_flights[i, "dep_delay_cat"] <- NA
+  } else if (some_flights$dep_delay[[i]] < -30) {
+    some_flights[i, "dep_delay_cat"] <- "Early"
+  } else if (some_flights$dep_delay[[i]] < 30){
+    some_flights[i, "dep_delay_cat"] <- "Kind of on time"
+  } else {
+    some_flights[i, "dep_delay_cat"] <- "Late"
+  }
+}
+```
+:::
+::::
 
 ## Improved example
 
@@ -707,7 +784,7 @@ some_flights |>
       is.na(dep_delay) ~ NA,
       dep_delay < -30 ~ "Early",
       dep_delay < 30 ~ "Kind of on time",
-      TRUE ~ "Late" # else, return "Late"
+      TRUE ~ "Late"
     ) |> as.factor()
   )
 ```
@@ -718,6 +795,7 @@ some_flights |>
 some_flights |> 
   mutate(
     across(ends_with("delay"),
+    ~ case_when(
       is.na(dep_delay) ~ NA,
       dep_delay < -30 ~ "Early",
       dep_delay < 30 ~ "Kind of on time",
@@ -733,6 +811,7 @@ some_flights |>
 some_flights |> 
   mutate(
     across(ends_with("delay"),
+    ~ case_when(
       is.na(dep_delay) ~ NA,
       dep_delay < -30 ~ "Early",
       dep_delay < 30 ~ "Kind of on time",
@@ -783,13 +862,19 @@ readLines(cat_file_name, n = 10)
 read_csv(cat_file_name)
 ```
 
-## Parsing columns
+::: notes
+
+I have two more slides (hidden) about readr parsing columns
+and one comparing it to base R functions but it might be too much
+:::
+
+## Parsing columns {visibility="hidden"}
 
 ```{r}
 spec_csv(cat_file_name)
 ```
 
-## Parsing when reading
+## Parsing when reading {visibility="hidden"}
 
 ```{r}
 #| code-line-numbers: "|3-5|6-8|9"
@@ -870,7 +955,7 @@ cat("    7\t8\t9\n")
 ::::
 
 
-## {background-iframe="https://readr.tidyverse.org/#alternatives"}
+## {background-iframe="https://readr.tidyverse.org/#alternatives"} {visibility="hidden"}
 
 ## .rds, .rda, .Rdata, other formats {.smaller}
 
@@ -882,7 +967,7 @@ File type | Save | Open | Pros | Cons
 
 # References
 
-## 
+## {.smaller}
 
 ### Online books
 
@@ -900,7 +985,7 @@ File type | Save | Open | Pros | Cons
 
 - [A project from scratch](https://marianamontes.netlify.app/post/a-project-from-scratch/) <!-- This is mine -->
 
-## YouTube
+### YouTube
 
 - [Jenny Bryan | Object of type 'closure' is not subsettable](https://www.youtube.com/watch?v=vgYS-F8opgE&ab_channel=PositPBC)
 
