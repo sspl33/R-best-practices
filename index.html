@@ -405,7 +405,7 @@ Mariana Montes
 <section id="outline" class="slide level2">
 <h2>Outline</h2>
 <ul>
-<li><p>Reproducibility</p></li>
+<li><p>Reproducibility &amp; debugging</p></li>
 <li><p>Style</p></li>
 <li><p>Data wrangling</p></li>
 <li><p>I/O</p></li>
@@ -477,13 +477,14 @@ Mariana Montes
       }</style></aside>
 </section>
 <section>
-<section id="reproducibility" class="title-slide slide level1 center">
-<h1>Reproducibility</h1>
+<section id="reproducibility-debugging" class="title-slide slide level1 center">
+<h1>Reproducibility &amp; debugging</h1>
 <ul>
 <li><code>{here}</code>: project-oriented workflow</li>
 <li>git</li>
 <li><code>{renv}</code>: virtual environments</li>
 <li><code>{reprex}</code>: Minimal <strong>repr</strong>oducible <strong>ex</strong>amples</li>
+<li><code>browser()</code> and breakpoints</li>
 </ul>
 </section>
 <section id="section" class="slide level2 smaller">
@@ -525,7 +526,7 @@ Mariana Montes
 <span id="cb1-4"><a href=""></a><span class="co"># here()</span></span>
 <span id="cb1-5"><a href=""></a><span class="fu">here</span>() <span class="sc">|&gt;</span> <span class="fu">dir</span>() <span class="sc">|&gt;</span> <span class="fu">length</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 14</code></pre>
+<pre><code>[1] 15</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">here</span>(<span class="st">"analysis"</span>) <span class="sc">|&gt;</span> <span class="fu">dir</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -605,30 +606,30 @@ Mariana Montes
 <li>Keeps track of R and package versions</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-42"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-42-1"><a href="#annotated-cell-42-1"></a><span class="fu">library</span>(renv)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-42" data-target-annotation="1">1</button><span id="annotated-cell-42-2" class="code-annotation-target"><a href="#annotated-cell-42-2"></a><span class="fu">init</span>()</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-42" data-target-annotation="2">2</button><span id="annotated-cell-42-3" class="code-annotation-target"><a href="#annotated-cell-42-3"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
-<span id="annotated-cell-42-4"><a href="#annotated-cell-42-4"></a><span class="fu">install.packages</span>(<span class="st">"reprex"</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-42" data-target-annotation="3">3</button><span id="annotated-cell-42-5" class="code-annotation-target"><a href="#annotated-cell-42-5"></a><span class="fu">snapshot</span>()</span>
-<span id="annotated-cell-42-6"><a href="#annotated-cell-42-6"></a><span class="co"># Someone else uses your project</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-42" data-target-annotation="4">4</button><span id="annotated-cell-42-7" class="code-annotation-target"><a href="#annotated-cell-42-7"></a><span class="fu">restore</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-41"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-41-1"><a href="#annotated-cell-41-1"></a><span class="fu">library</span>(renv)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-41" data-target-annotation="1">1</button><span id="annotated-cell-41-2" class="code-annotation-target"><a href="#annotated-cell-41-2"></a><span class="fu">init</span>()</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-41" data-target-annotation="2">2</button><span id="annotated-cell-41-3" class="code-annotation-target"><a href="#annotated-cell-41-3"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="annotated-cell-41-4"><a href="#annotated-cell-41-4"></a><span class="fu">install.packages</span>(<span class="st">"reprex"</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-41" data-target-annotation="3">3</button><span id="annotated-cell-41-5" class="code-annotation-target"><a href="#annotated-cell-41-5"></a><span class="fu">snapshot</span>()</span>
+<span id="annotated-cell-41-6"><a href="#annotated-cell-41-6"></a><span class="co"># Someone else uses your project</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-41" data-target-annotation="4">4</button><span id="annotated-cell-41-7" class="code-annotation-target"><a href="#annotated-cell-41-7"></a><span class="fu">restore</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-42" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-41" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-42" data-code-lines="2" data-code-annotation="1">Initialize your virtual environment.</span>
+<span data-code-cell="annotated-cell-41" data-code-lines="2" data-code-annotation="1">Initialize your virtual environment.</span>
 </dd>
-<dt data-target-cell="annotated-cell-42" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-41" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-42" data-code-lines="3,4" data-code-annotation="2">Install some packages (in the environment).</span>
+<span data-code-cell="annotated-cell-41" data-code-lines="3,4" data-code-annotation="2">Install some packages (in the environment).</span>
 </dd>
-<dt data-target-cell="annotated-cell-42" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-41" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-42" data-code-lines="5" data-code-annotation="3">Register the status.</span>
+<span data-code-cell="annotated-cell-41" data-code-lines="5" data-code-annotation="3">Register the status.</span>
 </dd>
-<dt data-target-cell="annotated-cell-42" data-target-annotation="4">4</dt>
+<dt data-target-cell="annotated-cell-41" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-42" data-code-lines="7" data-code-annotation="4">In another system, recover the status.</span>
+<span data-code-cell="annotated-cell-41" data-code-lines="7" data-code-annotation="4">In another system, recover the status.</span>
 </dd>
 </dl>
 </div>
@@ -654,6 +655,17 @@ Mariana Montes
 <p><a href="https://rstudio.github.io/renv/"><code>{renv}</code></a></p>
 </div>
 </section>
+<section id="exercise" class="slide level2" data-background-image="img/practice.jpg" data-background-opacity="0.2">
+<h2>Exercise</h2>
+<ul>
+<li>Go to GitHub and fork the following repository: https://github.com/montesmariana/r-best-practices-exercises</li>
+<li>From RStudio, create a new project from version control and provide the username and repository name of your fork</li>
+<li>With the new project open in RStudio, restore the <code>{renv}</code> environment.</li>
+</ul>
+<div class="footer">
+<p>Photo by <a href="https://unsplash.com/@brett_jordan?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Brett Jordan</a> on <a href="https://unsplash.com/photos/brown-wooden-cross-on-white-surface-Fp4ERdkR5jU?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p>
+</div>
+</section>
 <section id="reprex-minimal-reproducible-examples" class="slide level2">
 <h2><code>{reprex}</code>: Minimal reproducible examples</h2>
 <p>There is some code to reproduce…</p>
@@ -663,15 +675,27 @@ Mariana Montes
 <pre><strong>sth_is_wrong.R</strong></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">library</span>(nycflights13)</span>
-<span id="cb7-2"><a href=""></a>dat <span class="ot">&lt;-</span> <span class="fu">head</span>(flights)</span>
-<span id="cb7-3"><a href=""></a>df<span class="sc">$</span>flights</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href=""></a>df <span class="ot">&lt;-</span> <span class="fu">head</span>(flights)</span>
+<span id="cb7-3"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(df<span class="sc">$</span>dep_delay)) {</span>
+<span id="cb7-4"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(df<span class="sc">$</span>dep_delay[[i]])) {</span>
+<span id="cb7-5"><a href=""></a>    df[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb7-6"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span>(df<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span>) {</span>
+<span id="cb7-7"><a href=""></a>    df[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> delay_categories[[<span class="dv">1</span>]]</span>
+<span id="cb7-8"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span>(df<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="dv">30</span>) {</span>
+<span id="cb7-9"><a href=""></a>    df[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> delay_categories[[<span class="dv">2</span>]]</span>
+<span id="cb7-10"><a href=""></a>  } <span class="cf">else</span> {</span>
+<span id="cb7-11"><a href=""></a>    df[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> delay_categories[[<span class="dv">3</span>]]</span>
+<span id="cb7-12"><a href=""></a>  }</span>
+<span id="cb7-13"><a href=""></a>}</span>
+<span id="cb7-14"><a href=""></a>delay_categories <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Early"</span>, <span class="st">"Kind of on time"</span>, <span class="st">"Late"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div class="fragment">
+</section>
+<section id="reprex-minimal-reproducible-examples-1" class="slide level2">
+<h2><code>{reprex}</code>: Minimal reproducible examples</h2>
 <p>In the console (or with the RStudio add-on):</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">library</span>(reprex)</span>
 <span id="cb8-2"><a href=""></a><span class="fu">reprex</span>(<span class="fu">here</span>(<span class="st">"R"</span>, <span class="st">"sth_is_wrong.R"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section>
 <section id="section-1" class="slide level2">
 <h2><img data-src="https://raw.githubusercontent.com/tidyverse/reprex/main/man/figures/logo.png" height="100"></h2>
@@ -682,11 +706,35 @@ Mariana Montes
 </div>
 <div class="callout-content">
 <div class="sourceCode" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">library</span>(nycflights13)</span>
-<span id="cb9-2"><a href=""></a>dat <span class="ot">&lt;-</span> <span class="fu">head</span>(flights)</span>
-<span id="cb9-3"><a href=""></a>df<span class="sc">$</span>flights</span>
-<span id="cb9-4"><a href=""></a><span class="co">#&gt; Error in df$flights: object of type 'closure' is not subsettable</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><sup>Created on 2024-05-13 with <a href="https://reprex.tidyverse.org">reprex v2.1.0</a></sup></p>
+<span id="cb9-2"><a href=""></a>df <span class="ot">&lt;-</span> <span class="fu">head</span>(flights)</span>
+<span id="cb9-3"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(df<span class="sc">$</span>dep_delay)) {</span>
+<span id="cb9-4"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(df<span class="sc">$</span>dep_delay[[i]])) {</span>
+<span id="cb9-5"><a href=""></a>    df[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb9-6"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span>(df<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span>) {</span>
+<span id="cb9-7"><a href=""></a>    df[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> delay_categories[[<span class="dv">1</span>]]</span>
+<span id="cb9-8"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span>(df<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="dv">30</span>) {</span>
+<span id="cb9-9"><a href=""></a>    df[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> delay_categories[[<span class="dv">2</span>]]</span>
+<span id="cb9-10"><a href=""></a>  } <span class="cf">else</span> {</span>
+<span id="cb9-11"><a href=""></a>    df[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> delay_categories[[<span class="dv">3</span>]]</span>
+<span id="cb9-12"><a href=""></a>  }</span>
+<span id="cb9-13"><a href=""></a>}</span>
+<span id="cb9-14"><a href=""></a><span class="co">#&gt; Error in eval(expr, envir, enclos): object 'delay_categories' not found</span></span>
+<span id="cb9-15"><a href=""></a>delay_categories <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Early"</span>, <span class="st">"Kind of on time"</span>, <span class="st">"Late"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><sup>Created on 2024-06-24 with <a href="https://reprex.tidyverse.org">reprex v2.1.0</a></sup></p>
 </div>
+</div>
+</div>
+</section>
+<section id="interactive-debugging" class="slide level2">
+<h2>Interactive debugging</h2>
+<div class="columns">
+<div class="column" style="width:30%;">
+<ul>
+<li><code>browser()</code></li>
+<li>Breakpoints</li>
+</ul>
+</div><div class="column" style="width:70%;">
+<p><img data-src="img/breakpoint.png" class="shaded"></p>
 </div>
 </div>
 </section>
@@ -694,9 +742,9 @@ Mariana Montes
 <h2>Tips for R scripts</h2>
 <div class="columns">
 <div class="column" style="width:60%;">
-<p><img data-src="img/source-screenshot.png"></p>
+<p><img data-src="img/source-screenshot.png" class="shaded"></p>
 </div><div class="column" style="width:40%;">
-<p><img data-src="img/clean-session.png"></p>
+<p><img data-src="img/clean-session.png" class="shaded"></p>
 </div>
 </div>
 <aside class="notes">
@@ -716,6 +764,17 @@ Mariana Montes
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section>
+<section id="exercise-1" class="slide level2" data-background-image="img/practice.jpg" data-background-opacity="0.2">
+<h2>Exercise</h2>
+<ul>
+<li>Run the code in “script.R” and fix the bugs necessary for it to run well. Restart R every time you source the file.</li>
+<li>Add some comments with hierarchies.</li>
+<li>(Optional) Update the settings in R Studio as recommended in the previous slide.</li>
+</ul>
+<div class="footer">
+<p>Photo by <a href="https://unsplash.com/@brett_jordan?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Brett Jordan</a> on <a href="https://unsplash.com/photos/brown-wooden-cross-on-white-surface-Fp4ERdkR5jU?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p>
+</div>
 </section></section>
 <section>
 <section id="style" class="title-slide slide level1 center">
@@ -883,32 +942,55 @@ Mariana Montes
           display:block!important;
       }</style></aside>
 </section>
-
+<section id="exercise-2" class="slide level2" data-background-image="img/practice.jpg" data-background-opacity="0.2">
+<h2>Exercise</h2>
+<ul>
+<li><p>In the script, change the name of the dataframe to something more informative.</p></li>
+<li><p>Fix the spaces and the punctuation.</p></li>
+</ul>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>You may use <code>Ctrl/⌘+F</code> in R Studio to replace all the calls: How many times has the dataframe been called?</p>
+<p>Use the automatic linting of R Studio to fix indentation!</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<p>Photo by <a href="https://unsplash.com/@brett_jordan?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Brett Jordan</a> on <a href="https://unsplash.com/photos/brown-wooden-cross-on-white-surface-Fp4ERdkR5jU?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p>
+</div>
+</section>
 <section id="pipe" class="slide level2">
 <h2>Pipe</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29" data-code-line-numbers="|1|2|3-5,19|7,9,11,13,15|21-22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>some_flights <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"nycflights13_random2000.csv"</span>))</span>
-<span id="cb29-2"><a href=""></a>some_flights<span class="sc">$</span>month_name <span class="ot">&lt;-</span> month.name[some_flights<span class="sc">$</span>month]</span>
-<span id="cb29-3"><a href=""></a>some_flights<span class="sc">$</span>carrier <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(some_flights<span class="sc">$</span>carrier)</span>
-<span id="cb29-4"><a href=""></a>some_flights<span class="sc">$</span>tailnum <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(some_flights<span class="sc">$</span>tailnum)</span>
-<span id="cb29-5"><a href=""></a>some_flights<span class="sc">$</span>origin <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(some_flights<span class="sc">$</span>origin)</span>
-<span id="cb29-6"><a href=""></a></span>
-<span id="cb29-7"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(some_flights<span class="sc">$</span>dep_delay)) {</span>
-<span id="cb29-8"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(some_flights<span class="sc">$</span>dep_delay[[i]])) {</span>
-<span id="cb29-9"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb29-10"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span> (some_flights<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span>) {</span>
-<span id="cb29-11"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Early"</span></span>
-<span id="cb29-12"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span> (some_flights<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="dv">30</span>){</span>
-<span id="cb29-13"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Kind of on time"</span></span>
-<span id="cb29-14"><a href=""></a>  } <span class="cf">else</span> {</span>
-<span id="cb29-15"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Late"</span></span>
-<span id="cb29-16"><a href=""></a>  }</span>
-<span id="cb29-17"><a href=""></a>}</span>
-<span id="cb29-18"><a href=""></a></span>
-<span id="cb29-19"><a href=""></a>some_flights<span class="sc">$</span>dep_delay_cat <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(some_flights<span class="sc">$</span>dep_delay_cat)</span>
-<span id="cb29-20"><a href=""></a></span>
-<span id="cb29-21"><a href=""></a>some_columns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"month_name"</span>, <span class="st">"carrier"</span>, <span class="st">"tailnum"</span>, <span class="st">"origin"</span>, <span class="st">"dep_delay_cat"</span>)</span>
-<span id="cb29-22"><a href=""></a>some_flights_partial <span class="ot">&lt;-</span> some_flights[some_columns]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20" data-code-line-numbers="|1|2|3-5,19|7,9,11,13,15|21-22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>some_flights <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"nycflights13_random2000.csv"</span>))</span>
+<span id="cb20-2"><a href=""></a>some_flights<span class="sc">$</span>month_name <span class="ot">&lt;-</span> month.name[some_flights<span class="sc">$</span>month]</span>
+<span id="cb20-3"><a href=""></a>some_flights<span class="sc">$</span>carrier <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(some_flights<span class="sc">$</span>carrier)</span>
+<span id="cb20-4"><a href=""></a>some_flights<span class="sc">$</span>tailnum <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(some_flights<span class="sc">$</span>tailnum)</span>
+<span id="cb20-5"><a href=""></a>some_flights<span class="sc">$</span>origin <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(some_flights<span class="sc">$</span>origin)</span>
+<span id="cb20-6"><a href=""></a></span>
+<span id="cb20-7"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(some_flights<span class="sc">$</span>dep_delay)) {</span>
+<span id="cb20-8"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(some_flights<span class="sc">$</span>dep_delay[[i]])) {</span>
+<span id="cb20-9"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb20-10"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span> (some_flights<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span>) {</span>
+<span id="cb20-11"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Early"</span></span>
+<span id="cb20-12"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span> (some_flights<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="dv">30</span>){</span>
+<span id="cb20-13"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Kind of on time"</span></span>
+<span id="cb20-14"><a href=""></a>  } <span class="cf">else</span> {</span>
+<span id="cb20-15"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Late"</span></span>
+<span id="cb20-16"><a href=""></a>  }</span>
+<span id="cb20-17"><a href=""></a>}</span>
+<span id="cb20-18"><a href=""></a></span>
+<span id="cb20-19"><a href=""></a>some_flights<span class="sc">$</span>dep_delay_cat <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(some_flights<span class="sc">$</span>dep_delay_cat)</span>
+<span id="cb20-20"><a href=""></a></span>
+<span id="cb20-21"><a href=""></a>some_columns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"month_name"</span>, <span class="st">"carrier"</span>, <span class="st">"tailnum"</span>, <span class="st">"origin"</span>, <span class="st">"dep_delay_cat"</span>)</span>
+<span id="cb20-22"><a href=""></a>some_flights_partial <span class="ot">&lt;-</span> some_flights[some_columns]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="problems" class="slide level2">
@@ -968,29 +1050,29 @@ Mariana Montes
 <section id="multiple-columns-at-once" class="slide level2">
 <h2>Multiple columns at once</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-16"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-16-1"><a href="#annotated-cell-16-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="annotated-cell-16-2"><a href="#annotated-cell-16-2"></a><span class="fu">library</span>(readr)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="1">1</button><span id="annotated-cell-16-3" class="code-annotation-target"><a href="#annotated-cell-16-3"></a>some_flights_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"nycflights13_random2000.csv"</span>))</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="2">2</button><span id="annotated-cell-16-4" class="code-annotation-target"><a href="#annotated-cell-16-4"></a>some_flights <span class="ot">&lt;-</span> some_flights_raw <span class="sc">|&gt;</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="3">3</button><span id="annotated-cell-16-5" class="code-annotation-target"><a href="#annotated-cell-16-5"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor))</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="4">4</button><span id="annotated-cell-16-6" class="code-annotation-target"><a href="#annotated-cell-16-6"></a>some_flights <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">where</span>(is.factor))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-15"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-15-1"><a href="#annotated-cell-15-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="annotated-cell-15-2"><a href="#annotated-cell-15-2"></a><span class="fu">library</span>(readr)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="1">1</button><span id="annotated-cell-15-3" class="code-annotation-target"><a href="#annotated-cell-15-3"></a>some_flights_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"nycflights13_random2000.csv"</span>))</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="2">2</button><span id="annotated-cell-15-4" class="code-annotation-target"><a href="#annotated-cell-15-4"></a>some_flights <span class="ot">&lt;-</span> some_flights_raw <span class="sc">|&gt;</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="3">3</button><span id="annotated-cell-15-5" class="code-annotation-target"><a href="#annotated-cell-15-5"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor))</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="4">4</button><span id="annotated-cell-15-6" class="code-annotation-target"><a href="#annotated-cell-15-6"></a>some_flights <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">where</span>(is.factor))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-16" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="3" data-code-annotation="1">Specific state to which you might want to return</span>
+<span data-code-cell="annotated-cell-15" data-code-lines="3" data-code-annotation="1">Specific state to which you might want to return</span>
 </dd>
-<dt data-target-cell="annotated-cell-16" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="4" data-code-annotation="2">New variable for a new state</span>
+<span data-code-cell="annotated-cell-15" data-code-lines="4" data-code-annotation="2">New variable for a new state</span>
 </dd>
-<dt data-target-cell="annotated-cell-16" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="5" data-code-annotation="3">Apply the same transformation to multiple columns</span>
+<span data-code-cell="annotated-cell-15" data-code-lines="5" data-code-annotation="3">Apply the same transformation to multiple columns</span>
 </dd>
-<dt data-target-cell="annotated-cell-16" data-target-annotation="4">4</dt>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="6" data-code-annotation="4">Inspect a subset of columns based on a condition.</span>
+<span data-code-cell="annotated-cell-15" data-code-lines="6" data-code-annotation="4">Inspect a subset of columns based on a condition.</span>
 </dd>
 </dl>
 </div>
@@ -1015,7 +1097,7 @@ Mariana Montes
 <section id="match-vectors-with-indices" class="slide level2">
 <h2>Match vectors with indices</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>month.name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>month.name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
@@ -1024,7 +1106,7 @@ Mariana Montes
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>month.name[[<span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>month.name[[<span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
@@ -1032,7 +1114,7 @@ Mariana Montes
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>month.name[<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">7</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a>month.name[<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">7</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
@@ -1040,7 +1122,7 @@ Mariana Montes
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">head</span>(some_flights<span class="sc">$</span>month)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="fu">head</span>(some_flights<span class="sc">$</span>month)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
@@ -1048,7 +1130,7 @@ Mariana Montes
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>month.name[<span class="fu">head</span>(some_flights<span class="sc">$</span>month)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a>month.name[<span class="fu">head</span>(some_flights<span class="sc">$</span>month)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
@@ -1059,9 +1141,9 @@ Mariana Montes
 <section id="match-vectors-with-indices-1" class="slide level2">
 <h2>Match vectors with indices</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>some_flights <span class="sc">|&gt;</span></span>
-<span id="cb41-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">month_name =</span> month.name[month]) <span class="sc">|&gt;</span> </span>
-<span id="cb41-3"><a href=""></a>  <span class="fu">select</span>(month_name, month)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>some_flights <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">month_name =</span> month.name[month]) <span class="sc">|&gt;</span> </span>
+<span id="cb32-3"><a href=""></a>  <span class="fu">select</span>(month_name, month)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
@@ -1084,34 +1166,34 @@ Mariana Montes
 </section>
 <section id="turn-numeric-into-categorical-case_when" class="slide level2">
 <h2>Turn numeric into categorical: <code>case_when()</code></h2>
-<div class="sourceCode" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(some_flights<span class="sc">$</span>dep_delay)) {</span>
-<span id="cb43-2"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(some_flights<span class="sc">$</span>dep_delay[[i]])) {</span>
-<span id="cb43-3"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb43-4"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span> (some_flights<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span>) {</span>
-<span id="cb43-5"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Early"</span></span>
-<span id="cb43-6"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span> (some_flights<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="dv">30</span>){</span>
-<span id="cb43-7"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Kind of on time"</span></span>
-<span id="cb43-8"><a href=""></a>  } <span class="cf">else</span> {</span>
-<span id="cb43-9"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Late"</span></span>
-<span id="cb43-10"><a href=""></a>  }</span>
-<span id="cb43-11"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(some_flights<span class="sc">$</span>dep_delay)) {</span>
+<span id="cb34-2"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(some_flights<span class="sc">$</span>dep_delay[[i]])) {</span>
+<span id="cb34-3"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb34-4"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span> (some_flights<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span>) {</span>
+<span id="cb34-5"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Early"</span></span>
+<span id="cb34-6"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span> (some_flights<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="dv">30</span>) {</span>
+<span id="cb34-7"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Kind of on time"</span></span>
+<span id="cb34-8"><a href=""></a>  } <span class="cf">else</span> {</span>
+<span id="cb34-9"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Late"</span></span>
+<span id="cb34-10"><a href=""></a>  }</span>
+<span id="cb34-11"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="if_else" class="slide level2">
 <h2><code>if_else()</code></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
-<span id="cb44-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">dep_delay_cat =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(dep_delay), <span class="cn">NA</span>, <span class="st">"We have a value"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb44-3"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">by =</span> dep_delay_cat) <span class="sc">|&gt;</span> </span>
-<span id="cb44-4"><a href=""></a>  <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"dep_delay"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
+<span id="cb35-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">dep_delay_cat =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(dep_delay), <span class="cn">NA</span>, <span class="st">"We have a value"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb35-3"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">by =</span> dep_delay_cat) <span class="sc">|&gt;</span> </span>
+<span id="cb35-4"><a href=""></a>  <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"dep_delay"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 2
    dep_delay dep_delay_cat  
        &lt;dbl&gt; &lt;chr&gt;          
- 1        -1 We have a value
- 2         0 We have a value
- 3         3 We have a value
- 4        -5 We have a value
- 5        -2 We have a value
+ 1        24 We have a value
+ 2        13 We have a value
+ 3        -2 We have a value
+ 4        -4 We have a value
+ 5        -6 We have a value
  6        NA &lt;NA&gt;           
  7        NA &lt;NA&gt;           
  8        NA &lt;NA&gt;           
@@ -1122,86 +1204,86 @@ Mariana Montes
 </section>
 <section id="case_when" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title"><code>case_when()</code></h2>
-<div class="sourceCode" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb46-1" class="hljs-ln-code"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
-<span id="cb46-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">dep_delay_cat =</span> <span class="fu">case_when</span>(</span>
-<span id="cb46-3" class="hljs-ln-code"><a href=""></a>    <span class="co"># condition ~ output</span></span>
-<span id="cb46-4" class="hljs-ln-code"><a href=""></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb37-1" class="hljs-ln-code"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
+<span id="cb37-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">dep_delay_cat =</span> <span class="fu">case_when</span>(</span>
+<span id="cb37-3" class="hljs-ln-code"><a href=""></a>    <span class="co"># condition ~ output</span></span>
+<span id="cb37-4" class="hljs-ln-code"><a href=""></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="case_when-1" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title"><code>case_when()</code></h2>
-<div class="sourceCode" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb47-1" class="hljs-ln-code"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
-<span id="cb47-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">dep_delay_cat =</span> <span class="fu">case_when</span>(</span>
-<span id="cb47-3" class="hljs-ln-code"><a href=""></a>    <span class="co"># condition ~ output</span></span>
-<span id="cb47-4" class="hljs-ln-code"><a href=""></a>    <span class="fu">is.na</span>(dep_delay) <span class="sc">~</span> <span class="cn">NA</span>, <span class="co"># if it is NA, return NA</span></span>
-<span id="cb47-5" class="hljs-ln-code"><a href=""></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Late"</span> <span class="co"># else, return "Late"</span></span>
-<span id="cb47-6" class="hljs-ln-code"><a href=""></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb38-1" class="hljs-ln-code"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
+<span id="cb38-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">dep_delay_cat =</span> <span class="fu">case_when</span>(</span>
+<span id="cb38-3" class="hljs-ln-code"><a href=""></a>    <span class="co"># condition ~ output</span></span>
+<span id="cb38-4" class="hljs-ln-code"><a href=""></a>    <span class="fu">is.na</span>(dep_delay) <span class="sc">~</span> <span class="cn">NA</span>, <span class="co"># if it is NA, return NA</span></span>
+<span id="cb38-5" class="hljs-ln-code"><a href=""></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Late"</span> <span class="co"># else, return "Late"</span></span>
+<span id="cb38-6" class="hljs-ln-code"><a href=""></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="case_when-2" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title"><code>case_when()</code></h2>
-<div class="sourceCode" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb48-1" class="hljs-ln-code"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
-<span id="cb48-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">dep_delay_cat =</span> <span class="fu">case_when</span>(</span>
-<span id="cb48-3" class="hljs-ln-code"><a href=""></a>    <span class="co"># condition ~ output</span></span>
-<span id="cb48-4" class="hljs-ln-code"><a href=""></a>    <span class="fu">is.na</span>(dep_delay) <span class="sc">~</span> <span class="cn">NA</span>, <span class="co"># if it is NA, return NA</span></span>
-<span id="cb48-5" class="hljs-ln-code"><a href=""></a>    dep_delay <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span> <span class="sc">~</span> <span class="st">"Early"</span>, <span class="co"># else if it is lower than -30 return "Early"</span></span>
-<span id="cb48-6" class="hljs-ln-code"><a href=""></a>    dep_delay <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"Kind of on time"</span>, <span class="co"># else if it is lower than 30...</span></span>
-<span id="cb48-7" class="hljs-ln-code"><a href=""></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Late"</span> <span class="co"># else, return "Late"</span></span>
-<span id="cb48-8" class="hljs-ln-code"><a href=""></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb39-1" class="hljs-ln-code"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
+<span id="cb39-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">dep_delay_cat =</span> <span class="fu">case_when</span>(</span>
+<span id="cb39-3" class="hljs-ln-code"><a href=""></a>    <span class="co"># condition ~ output</span></span>
+<span id="cb39-4" class="hljs-ln-code"><a href=""></a>    <span class="fu">is.na</span>(dep_delay) <span class="sc">~</span> <span class="cn">NA</span>, <span class="co"># if it is NA, return NA</span></span>
+<span id="cb39-5" class="hljs-ln-code"><a href=""></a>    dep_delay <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span> <span class="sc">~</span> <span class="st">"Early"</span>, <span class="co"># else if it is lower than -30 return "Early"</span></span>
+<span id="cb39-6" class="hljs-ln-code"><a href=""></a>    dep_delay <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"Kind of on time"</span>, <span class="co"># else if it is lower than 30...</span></span>
+<span id="cb39-7" class="hljs-ln-code"><a href=""></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Late"</span> <span class="co"># else, return "Late"</span></span>
+<span id="cb39-8" class="hljs-ln-code"><a href=""></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="case_when-vs-for-loop" class="slide level2 smaller">
 <h2><code>case_when()</code> vs <code>for</code> loop</h2>
 <div class="columns">
 <div class="column" style="width:45%;">
-<div class="sourceCode" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
-<span id="cb49-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">dep_delay_cat =</span> <span class="fu">case_when</span>(</span>
-<span id="cb49-3"><a href=""></a>    <span class="fu">is.na</span>(dep_delay) <span class="sc">~</span> <span class="cn">NA</span>,</span>
-<span id="cb49-4"><a href=""></a>    dep_delay <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span> <span class="sc">~</span> <span class="st">"Early"</span>,</span>
-<span id="cb49-5"><a href=""></a>    dep_delay <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"Kind of on time"</span>,</span>
-<span id="cb49-6"><a href=""></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Late"</span></span>
-<span id="cb49-7"><a href=""></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
+<span id="cb40-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">dep_delay_cat =</span> <span class="fu">case_when</span>(</span>
+<span id="cb40-3"><a href=""></a>    <span class="fu">is.na</span>(dep_delay) <span class="sc">~</span> <span class="cn">NA</span>,</span>
+<span id="cb40-4"><a href=""></a>    dep_delay <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span> <span class="sc">~</span> <span class="st">"Early"</span>,</span>
+<span id="cb40-5"><a href=""></a>    dep_delay <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"Kind of on time"</span>,</span>
+<span id="cb40-6"><a href=""></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Late"</span></span>
+<span id="cb40-7"><a href=""></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column" style="width:55%;">
-<div class="sourceCode" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(some_flights<span class="sc">$</span>dep_delay)) {</span>
-<span id="cb50-2"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(some_flights<span class="sc">$</span>dep_delay[[i]])) {</span>
-<span id="cb50-3"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb50-4"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span> (some_flights<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span>) {</span>
-<span id="cb50-5"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Early"</span></span>
-<span id="cb50-6"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span> (some_flights<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="dv">30</span>){</span>
-<span id="cb50-7"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Kind of on time"</span></span>
-<span id="cb50-8"><a href=""></a>  } <span class="cf">else</span> {</span>
-<span id="cb50-9"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Late"</span></span>
-<span id="cb50-10"><a href=""></a>  }</span>
-<span id="cb50-11"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(some_flights<span class="sc">$</span>dep_delay)) {</span>
+<span id="cb41-2"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(some_flights<span class="sc">$</span>dep_delay[[i]])) {</span>
+<span id="cb41-3"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb41-4"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span> (some_flights<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span>) {</span>
+<span id="cb41-5"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Early"</span></span>
+<span id="cb41-6"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span> (some_flights<span class="sc">$</span>dep_delay[[i]] <span class="sc">&lt;</span> <span class="dv">30</span>) {</span>
+<span id="cb41-7"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Kind of on time"</span></span>
+<span id="cb41-8"><a href=""></a>  } <span class="cf">else</span> {</span>
+<span id="cb41-9"><a href=""></a>    some_flights[i, <span class="st">"dep_delay_cat"</span>] <span class="ot">&lt;-</span> <span class="st">"Late"</span></span>
+<span id="cb41-10"><a href=""></a>  }</span>
+<span id="cb41-11"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
 <section id="improved-example-8" class="slide level2">
 <h2>Improved example</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-28" data-code-line-numbers="|1|2|3|4-9|10|12-13"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-28-1"><a href="#annotated-cell-28-1"></a>some_flights <span class="ot">&lt;-</span> some_flights_raw <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-28-2"><a href="#annotated-cell-28-2"></a>  <span class="fu">mutate</span>(</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-28" data-target-annotation="1">1</button><span id="annotated-cell-28-3" class="code-annotation-target"><a href="#annotated-cell-28-3"></a>    <span class="at">month_name =</span> month.name[month],</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-28" data-target-annotation="2">2</button><span id="annotated-cell-28-4" class="code-annotation-target"><a href="#annotated-cell-28-4"></a>    <span class="at">dep_delay_cat =</span> <span class="fu">case_when</span>(</span>
-<span id="annotated-cell-28-5"><a href="#annotated-cell-28-5"></a>      <span class="fu">is.na</span>(dep_delay) <span class="sc">~</span> <span class="cn">NA</span>,</span>
-<span id="annotated-cell-28-6"><a href="#annotated-cell-28-6"></a>      dep_delay <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span> <span class="sc">~</span> <span class="st">"Early"</span>,</span>
-<span id="annotated-cell-28-7"><a href="#annotated-cell-28-7"></a>      dep_delay <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"Kind of on time"</span>,</span>
-<span id="annotated-cell-28-8"><a href="#annotated-cell-28-8"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Late"</span></span>
-<span id="annotated-cell-28-9"><a href="#annotated-cell-28-9"></a>      ),</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-28" data-target-annotation="3">3</button><span id="annotated-cell-28-10" class="code-annotation-target"><a href="#annotated-cell-28-10"></a>    <span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor)</span>
-<span id="annotated-cell-28-11"><a href="#annotated-cell-28-11"></a>  )</span>
-<span id="annotated-cell-28-12"><a href="#annotated-cell-28-12"></a>some_flights <span class="sc">|&gt;</span> </span>
-<span id="annotated-cell-28-13"><a href="#annotated-cell-28-13"></a>  <span class="fu">select</span>(month, month_name, dep_delay, dep_delay_cat)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-27" data-code-line-numbers="|1|2|3|4-9|10|12-13"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-27-1"><a href="#annotated-cell-27-1"></a>some_flights <span class="ot">&lt;-</span> some_flights_raw <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-27-2"><a href="#annotated-cell-27-2"></a>  <span class="fu">mutate</span>(</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-27" data-target-annotation="1">1</button><span id="annotated-cell-27-3" class="code-annotation-target"><a href="#annotated-cell-27-3"></a>    <span class="at">month_name =</span> month.name[month],</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-27" data-target-annotation="2">2</button><span id="annotated-cell-27-4" class="code-annotation-target"><a href="#annotated-cell-27-4"></a>    <span class="at">dep_delay_cat =</span> <span class="fu">case_when</span>(</span>
+<span id="annotated-cell-27-5"><a href="#annotated-cell-27-5"></a>      <span class="fu">is.na</span>(dep_delay) <span class="sc">~</span> <span class="cn">NA</span>,</span>
+<span id="annotated-cell-27-6"><a href="#annotated-cell-27-6"></a>      dep_delay <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span> <span class="sc">~</span> <span class="st">"Early"</span>,</span>
+<span id="annotated-cell-27-7"><a href="#annotated-cell-27-7"></a>      dep_delay <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"Kind of on time"</span>,</span>
+<span id="annotated-cell-27-8"><a href="#annotated-cell-27-8"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Late"</span></span>
+<span id="annotated-cell-27-9"><a href="#annotated-cell-27-9"></a>      ),</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-27" data-target-annotation="3">3</button><span id="annotated-cell-27-10" class="code-annotation-target"><a href="#annotated-cell-27-10"></a>    <span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor)</span>
+<span id="annotated-cell-27-11"><a href="#annotated-cell-27-11"></a>  )</span>
+<span id="annotated-cell-27-12"><a href="#annotated-cell-27-12"></a>some_flights <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-27-13"><a href="#annotated-cell-27-13"></a>  <span class="fu">select</span>(month, month_name, dep_delay, dep_delay_cat)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-28" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-27" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-28" data-code-lines="3" data-code-annotation="1">Create a column with the names of the months based on the number</span>
+<span data-code-cell="annotated-cell-27" data-code-lines="3" data-code-annotation="1">Create a column with the names of the months based on the number</span>
 </dd>
-<dt data-target-cell="annotated-cell-28" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-27" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-28" data-code-lines="4,5,6,7,8,9" data-code-annotation="2">Make a categorical version of <code>dep_delay</code>.</span>
+<span data-code-cell="annotated-cell-27" data-code-lines="4,5,6,7,8,9" data-code-annotation="2">Make a categorical version of <code>dep_delay</code>.</span>
 </dd>
-<dt data-target-cell="annotated-cell-28" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-27" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-28" data-code-lines="10" data-code-annotation="3">Turn all character columns into factors</span>
+<span data-code-cell="annotated-cell-27" data-code-lines="10" data-code-annotation="3">Turn all character columns into factors</span>
 </dd>
 </dl>
 </div>
@@ -1227,43 +1309,43 @@ Mariana Montes
 </div>
 </div></section><section id="multiple-columns-at-once-1" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Multiple columns at once</h2>
-<div class="sourceCode" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb52-1" class="hljs-ln-code"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
-<span id="cb52-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">mutate</span>(</span>
-<span id="cb52-3" class="hljs-ln-code"><a href=""></a>    <span class="at">dep_delay_cat =</span> <span class="fu">case_when</span>(</span>
-<span id="cb52-4" class="hljs-ln-code"><a href=""></a>      <span class="fu">is.na</span>(dep_delay) <span class="sc">~</span> <span class="cn">NA</span>,</span>
-<span id="cb52-5" class="hljs-ln-code"><a href=""></a>      dep_delay <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span> <span class="sc">~</span> <span class="st">"Early"</span>,</span>
-<span id="cb52-6" class="hljs-ln-code"><a href=""></a>      dep_delay <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"Kind of on time"</span>,</span>
-<span id="cb52-7" class="hljs-ln-code"><a href=""></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Late"</span></span>
-<span id="cb52-8" class="hljs-ln-code"><a href=""></a>    ) <span class="sc">|&gt;</span> <span class="fu">as.factor</span>()</span>
-<span id="cb52-9" class="hljs-ln-code"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb43-1" class="hljs-ln-code"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
+<span id="cb43-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb43-3" class="hljs-ln-code"><a href=""></a>    <span class="at">dep_delay_cat =</span> <span class="fu">case_when</span>(</span>
+<span id="cb43-4" class="hljs-ln-code"><a href=""></a>      <span class="fu">is.na</span>(dep_delay) <span class="sc">~</span> <span class="cn">NA</span>,</span>
+<span id="cb43-5" class="hljs-ln-code"><a href=""></a>      dep_delay <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span> <span class="sc">~</span> <span class="st">"Early"</span>,</span>
+<span id="cb43-6" class="hljs-ln-code"><a href=""></a>      dep_delay <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"Kind of on time"</span>,</span>
+<span id="cb43-7" class="hljs-ln-code"><a href=""></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Late"</span></span>
+<span id="cb43-8" class="hljs-ln-code"><a href=""></a>    ) <span class="sc">|&gt;</span> <span class="fu">as.factor</span>()</span>
+<span id="cb43-9" class="hljs-ln-code"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="multiple-columns-at-once-2" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Multiple columns at once</h2>
-<div class="sourceCode" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb53-1" class="hljs-ln-code"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
-<span id="cb53-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">mutate</span>(</span>
-<span id="cb53-3" class="hljs-ln-code"><a href=""></a>    <span class="fu">across</span>(<span class="fu">ends_with</span>(<span class="st">"delay"</span>),</span>
-<span id="cb53-4" class="hljs-ln-code"><a href=""></a>    <span class="sc">~</span> <span class="fu">case_when</span>(</span>
-<span id="cb53-5" class="hljs-ln-code"><a href=""></a>      <span class="fu">is.na</span>(dep_delay) <span class="sc">~</span> <span class="cn">NA</span>,</span>
-<span id="cb53-6" class="hljs-ln-code"><a href=""></a>      dep_delay <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span> <span class="sc">~</span> <span class="st">"Early"</span>,</span>
-<span id="cb53-7" class="hljs-ln-code"><a href=""></a>      dep_delay <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"Kind of on time"</span>,</span>
-<span id="cb53-8" class="hljs-ln-code"><a href=""></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Late"</span></span>
-<span id="cb53-9" class="hljs-ln-code"><a href=""></a>    ) <span class="sc">|&gt;</span> <span class="fu">as.factor</span>(),</span>
-<span id="cb53-10" class="hljs-ln-code"><a href=""></a>    <span class="at">.names =</span> <span class="st">"{.col}_cat"</span></span>
-<span id="cb53-11" class="hljs-ln-code"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb44-1" class="hljs-ln-code"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
+<span id="cb44-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb44-3" class="hljs-ln-code"><a href=""></a>    <span class="fu">across</span>(<span class="fu">ends_with</span>(<span class="st">"delay"</span>),</span>
+<span id="cb44-4" class="hljs-ln-code"><a href=""></a>    <span class="sc">~</span> <span class="fu">case_when</span>(</span>
+<span id="cb44-5" class="hljs-ln-code"><a href=""></a>      <span class="fu">is.na</span>(dep_delay) <span class="sc">~</span> <span class="cn">NA</span>,</span>
+<span id="cb44-6" class="hljs-ln-code"><a href=""></a>      dep_delay <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span> <span class="sc">~</span> <span class="st">"Early"</span>,</span>
+<span id="cb44-7" class="hljs-ln-code"><a href=""></a>      dep_delay <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"Kind of on time"</span>,</span>
+<span id="cb44-8" class="hljs-ln-code"><a href=""></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Late"</span></span>
+<span id="cb44-9" class="hljs-ln-code"><a href=""></a>    ) <span class="sc">|&gt;</span> <span class="fu">as.factor</span>(),</span>
+<span id="cb44-10" class="hljs-ln-code"><a href=""></a>    <span class="at">.names =</span> <span class="st">"{.col}_cat"</span></span>
+<span id="cb44-11" class="hljs-ln-code"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="multiple-columns-at-once-3" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Multiple columns at once</h2>
-<div class="sourceCode" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb54-1" class="hljs-ln-code"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
-<span id="cb54-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">mutate</span>(</span>
-<span id="cb54-3" class="hljs-ln-code"><a href=""></a>    <span class="fu">across</span>(<span class="fu">ends_with</span>(<span class="st">"delay"</span>),</span>
-<span id="cb54-4" class="hljs-ln-code"><a href=""></a>    <span class="sc">~</span> <span class="fu">case_when</span>(</span>
-<span id="cb54-5" class="hljs-ln-code"><a href=""></a>      <span class="fu">is.na</span>(dep_delay) <span class="sc">~</span> <span class="cn">NA</span>,</span>
-<span id="cb54-6" class="hljs-ln-code"><a href=""></a>      dep_delay <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span> <span class="sc">~</span> <span class="st">"Early"</span>,</span>
-<span id="cb54-7" class="hljs-ln-code"><a href=""></a>      dep_delay <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"Kind of on time"</span>,</span>
-<span id="cb54-8" class="hljs-ln-code"><a href=""></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Late"</span></span>
-<span id="cb54-9" class="hljs-ln-code"><a href=""></a>    ) <span class="sc">|&gt;</span> <span class="fu">factor</span>(<span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Early"</span>, <span class="st">"Kind of on time"</span>, <span class="st">"Late"</span>)),</span>
-<span id="cb54-10" class="hljs-ln-code"><a href=""></a>    <span class="at">.names =</span> <span class="st">"{.col}_cat"</span></span>
-<span id="cb54-11" class="hljs-ln-code"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb45-1" class="hljs-ln-code"><a href=""></a>some_flights <span class="sc">|&gt;</span> </span>
+<span id="cb45-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb45-3" class="hljs-ln-code"><a href=""></a>    <span class="fu">across</span>(<span class="fu">ends_with</span>(<span class="st">"delay"</span>),</span>
+<span id="cb45-4" class="hljs-ln-code"><a href=""></a>    <span class="sc">~</span> <span class="fu">case_when</span>(</span>
+<span id="cb45-5" class="hljs-ln-code"><a href=""></a>      <span class="fu">is.na</span>(dep_delay) <span class="sc">~</span> <span class="cn">NA</span>,</span>
+<span id="cb45-6" class="hljs-ln-code"><a href=""></a>      dep_delay <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span> <span class="sc">~</span> <span class="st">"Early"</span>,</span>
+<span id="cb45-7" class="hljs-ln-code"><a href=""></a>      dep_delay <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"Kind of on time"</span>,</span>
+<span id="cb45-8" class="hljs-ln-code"><a href=""></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Late"</span></span>
+<span id="cb45-9" class="hljs-ln-code"><a href=""></a>    ) <span class="sc">|&gt;</span> <span class="fu">factor</span>(<span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Early"</span>, <span class="st">"Kind of on time"</span>, <span class="st">"Late"</span>)),</span>
+<span id="cb45-10" class="hljs-ln-code"><a href=""></a>    <span class="at">.names =</span> <span class="st">"{.col}_cat"</span></span>
+<span id="cb45-11" class="hljs-ln-code"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="multiple-columns-at-once-4" class="slide level2">
 <h2>Multiple columns at once</h2>
@@ -1285,6 +1367,17 @@ Mariana Montes
 # ℹ 1,990 more rows</code></pre>
 </div>
 </div>
+</section>
+<section id="exercise-3" class="slide level2" data-background-image="img/practice.jpg" data-background-opacity="0.2">
+<h2>Exercise</h2>
+<ul>
+<li>Use <code>readr::read_csv()</code> to read the file and return a tibble.</li>
+<li>Use the pipe and <code>dplyr::mutate()</code> to modify the character columns into factors.</li>
+<li>Use <code>dplyr::across()</code> and <code>dplyr::case_when()</code> to obtain a categorical version of the delay columns.</li>
+</ul>
+<div class="footer">
+<p>Photo by <a href="https://unsplash.com/@brett_jordan?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Brett Jordan</a> on <a href="https://unsplash.com/photos/brown-wooden-cross-on-white-surface-Fp4ERdkR5jU?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p>
+</div>
 </section></section>
 <section>
 <section id="io" class="title-slide slide level1 center">
@@ -1297,11 +1390,11 @@ Mariana Montes
 <section id="comma-separated-values" class="slide level2">
 <h2>Comma-separated values</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a>cat_file_name <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"flights_with_factors.csv"</span>)</span>
-<span id="cb56-2"><a href=""></a>some_flights <span class="sc">|&gt;</span></span>
-<span id="cb56-3"><a href=""></a>  <span class="fu">select</span>(carrier, flight, month_name, time_hour, <span class="fu">contains</span>(<span class="st">"delay"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb56-4"><a href=""></a>  <span class="fu">write_csv</span>(cat_file_name)</span>
-<span id="cb56-5"><a href=""></a><span class="fu">readLines</span>(cat_file_name, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a>cat_file_name <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"flights_with_factors.csv"</span>)</span>
+<span id="cb47-2"><a href=""></a>some_flights <span class="sc">|&gt;</span></span>
+<span id="cb47-3"><a href=""></a>  <span class="fu">select</span>(carrier, flight, month_name, time_hour, <span class="fu">contains</span>(<span class="st">"delay"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb47-4"><a href=""></a>  <span class="fu">write_csv</span>(cat_file_name)</span>
+<span id="cb47-5"><a href=""></a><span class="fu">readLines</span>(cat_file_name, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "carrier,flight,month_name,time_hour,dep_delay,arr_delay,dep_delay_cat,arr_delay_cat"
  [2] "UA,1168,April,2013-04-12T22:00:00Z,61,33,Late,Late"                                 
@@ -1319,7 +1412,7 @@ Mariana Montes
 <section id="readr" class="slide level2">
 <h2><code>{readr}</code></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a><span class="fu">read_csv</span>(cat_file_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">read_csv</span>(cat_file_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2,000 × 8
    carrier flight month_name time_hour           dep_delay arr_delay
@@ -1388,7 +1481,6 @@ text,with,commas    wha a a t   6
 </div>
 </div>
 </section>
-
 <section id="rds-.rda-.rdata-other-formats" class="slide level2 smaller">
 <h2>.rds, .rda, .Rdata, other formats</h2>
 <table>
@@ -1432,7 +1524,40 @@ text,with,commas    wha a a t   6
 </tr>
 </tbody>
 </table>
-<aside><ol class="aside-footnotes"><li id="fn2"><p>Outside of (data) packages.</p></li></ol></aside></section></section>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>Outside of (data) packages.</p></li></ol></aside></section>
+<section id="exercise-4" class="slide level2" data-background-image="img/practice.jpg" data-background-opacity="0.2">
+<h2>Exercise</h2>
+<ul>
+<li>Save the filtered dataset as a file with comma-separated values, in a new folder called “output”.</li>
+</ul>
+<div class="footer">
+<p>Photo by <a href="https://unsplash.com/@brett_jordan?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Brett Jordan</a> on <a href="https://unsplash.com/photos/brown-wooden-cross-on-white-surface-Fp4ERdkR5jU?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p>
+</div>
+</section></section>
+<section id="to-finish-start-over" class="title-slide slide level1 smaller center" data-background-image="img/scratch.jpg" data-background-opacity="0.2">
+<h1>To finish: start over</h1>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ol type="1">
+<li>Create a new, empty project without git.</li>
+<li>Turn it into a git repository with <code>usethis::use_git()</code>.</li>
+<li>Add a readme with <code>usethis::use_readme_rmd()</code>.</li>
+<li>Create a script and fill it with the code in <a href="https://gist.github.com/montesmariana/192c65b23820642cb467755f86beab01">this gist</a>.</li>
+</ol>
+</div><div class="column" style="width:50%;">
+<ol start="5" type="1">
+<li>Source the script from the README.</li>
+<li>Edit the text of the README and call <code>print_tree()</code> from the sourced script.</li>
+<li>Render the README.</li>
+<li>Link to GitHub with <code>usethis::use_github()</code>.</li>
+</ol>
+</div>
+</div>
+<div class="footer">
+<p>Photo by <a href="https://unsplash.com/@laurenagray?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">LAUREN GRAY</a> on <a href="https://unsplash.com/photos/white-egg-on-white-textile-Zqh5l1JWs5M?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p>
+</div>
+</section>
+
 <section>
 <section id="references" class="title-slide slide level1 center">
 <h1>References</h1>

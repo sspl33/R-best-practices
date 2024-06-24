@@ -15,7 +15,7 @@ code-annotations: select
 
 ## Outline
 
-- Reproducibility
+- Reproducibility & debugging
     
 - Style
 
@@ -60,12 +60,13 @@ df$dep_delay_cat <- as.factor(df$dep_delay_cat)                 # <6>
 Also: not using the pipe
 :::
 
-# Reproducibility
+# Reproducibility & debugging
 
 + `{here}`: project-oriented workflow
 + git
 + `{renv}`: virtual environments
 + `{reprex}`: Minimal **repr**oducible **ex**amples
++ `browser()` and breakpoints
 
 ## {.smaller}
 
@@ -217,6 +218,18 @@ reproducibility" (in Hadley Wickham's words).
 [`{renv}`](https://rstudio.github.io/renv/)
 :::
 
+## Exercise {background-image="img/practice.jpg" background-opacity="0.2"}
+
+- Go to GitHub and fork the following repository: https://github.com/montesmariana/r-best-practices-exercises
+- From RStudio, create a new project from version control and provide the username and repository name of your fork
+- With the new project open in RStudio, restore the `{renv}` environment.
+
+::: footer
+
+Photo by <a href="https://unsplash.com/@brett_jordan?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Brett Jordan</a> on <a href="https://unsplash.com/photos/brown-wooden-cross-on-white-surface-Fp4ERdkR5jU?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+
+:::
+
 ## `{reprex}`: Minimal reproducible examples
 
 ```{r}
@@ -248,11 +261,22 @@ There is some code to reproduce...
 ```{r filename=code_to_reproduce}
 #| eval: false
 library(nycflights13)
-dat <- head(flights)
-df$flights
+df <- head(flights)
+for (i in 1:length(df$dep_delay)) {
+  if (is.na(df$dep_delay[[i]])) {
+    df[i, "dep_delay_cat"] <- NA
+  } else if(df$dep_delay[[i]] < -30) {
+    df[i, "dep_delay_cat"] <- delay_categories[[1]]
+  } else if(df$dep_delay[[i]] < 30) {
+    df[i, "dep_delay_cat"] <- delay_categories[[2]]
+  } else {
+    df[i, "dep_delay_cat"] <- delay_categories[[3]]
+  }
+}
+delay_categories <- c("Early", "Kind of on time", "Late")
 ```
 
-. . .
+## `{reprex}`: Minimal reproducible examples
 
 In the console (or with the RStudio add-on):
 
@@ -273,17 +297,33 @@ readLines(here("R", rpx_file)) |> cat(sep="\n")
 ```
 :::
 
+## Interactive debugging
+
+:::: {.columns}
+
+::: {.column width="30%"}
+- `browser()`
+- Breakpoints
+:::
+
+::: {.column width="70%"}
+
+![](img/breakpoint.png){.shaded}
+:::
+
+::::
+
 ## Tips for R scripts
 
 :::: {.columns}
 
 ::: {.column width="60%"}
-![](img/source-screenshot.png)
+![](img/source-screenshot.png){.shaded}
 :::
 
 ::: {.column width="40%"}
 
-![](img/clean-session.png)
+![](img/clean-session.png){.shaded}
 :::
 
 ::::
@@ -299,6 +339,17 @@ environment (because you don't know what leftovers there are and how they can
 impact what you're doing next).
 :::
 
+## Exercise {background-image="img/practice.jpg" background-opacity="0.2"}
+
+- Run the code in "script.R" and fix the bugs necessary for it to run well. Restart R every time you source the file.
+- Add some comments with hierarchies.
+- (Optional) Update the settings in R Studio as recommended in the previous slide.
+
+::: footer
+
+Photo by <a href="https://unsplash.com/@brett_jordan?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Brett Jordan</a> on <a href="https://unsplash.com/photos/brown-wooden-cross-on-white-surface-Fp4ERdkR5jU?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+
+:::
 
 # Style
 
@@ -395,19 +446,24 @@ if(abs(i)>30){print (some_flights $ dep_delay [ i ])}
 ## Best practices {.smaller .incremental}
 
 :::: {.columns}
+
 ::: {.column width="50%"}
+
 - No spaces between `()` and text inside.
 - Use `""` instead of `''` unless there is already `""` inside.
 - The assignment operator in R is ` <- `. ^[Use `Alt+-` / `⌥+-`!]
 - The assignment operator and infix operators should be surrounded by spaces.
+
 :::
 
 ::: {.column width="50%"}
+
 - Spaces around the `()` for `for`, `if` and `when`.
 - No spaces around `:`, `$`, `[`, `^`, `+`...
 - Spaces only after `()` for function arguments.
 - Difference between `[]` and `[[]]`.
 - Pay attention to indentation!
+
 :::
 
 ::::
@@ -487,58 +543,32 @@ for (i in seq_along(some_flights$dep_delay)){
 ```
 
 ::: notes
+
 The `seq_along()` change is because it is safer in case the vector
 you use it on is empty. I have a slide about it in case it can be interesting
 to discuss, but I have hidden it.
-:::
-
-## Interlude: `seq_along(x)` vs `1:length(x)` {.smaller visibility="hidden"}
-
-```{r}
-x <- c("a", "b", "c")
-y <- c()
-length(y)
-```
-
-:::: {.columns}
-
-::: {.column}
-### Not empty vector `x`
-
-```{r}
-for (i in seq_along(x)) {
-  print(x[[i]])
-}
-```
-
-```{r}
-for (i in 1:length(x)) {
-  print(x[[i]])
-}
-```
 
 :::
 
-::: {.column}
-### Empty vector `y`
+## Exercise {background-image="img/practice.jpg" background-opacity="0.2"}
 
-```{r}
-for (i in seq_along(y)) {
-  print(y[[i]])
-}
-```
+- In the script, change the name of the dataframe to something more informative.
 
-<br>
+- Fix the spaces and the punctuation.
 
-```{r}
-for (i in 1:length(y)) {
-  print(y[[i]])
-}
-```
+::: callout-tip
+
+You may use `Ctrl/⌘+F` in R Studio to replace all the calls: How many times has the dataframe been called?
+
+Use the automatic linting of R Studio to fix indentation!
 
 :::
 
-::::
+::: footer
+
+Photo by <a href="https://unsplash.com/@brett_jordan?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Brett Jordan</a> on <a href="https://unsplash.com/photos/brown-wooden-cross-on-white-surface-Fp4ERdkR5jU?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+
+:::
 
 ## Pipe
 
@@ -667,7 +697,7 @@ for (i in seq_along(some_flights$dep_delay)) {
     some_flights[i, "dep_delay_cat"] <- NA
   } else if (some_flights$dep_delay[[i]] < -30) {
     some_flights[i, "dep_delay_cat"] <- "Early"
-  } else if (some_flights$dep_delay[[i]] < 30){
+  } else if (some_flights$dep_delay[[i]] < 30) {
     some_flights[i, "dep_delay_cat"] <- "Kind of on time"
   } else {
     some_flights[i, "dep_delay_cat"] <- "Late"
@@ -741,7 +771,7 @@ for (i in seq_along(some_flights$dep_delay)) {
     some_flights[i, "dep_delay_cat"] <- NA
   } else if (some_flights$dep_delay[[i]] < -30) {
     some_flights[i, "dep_delay_cat"] <- "Early"
-  } else if (some_flights$dep_delay[[i]] < 30){
+  } else if (some_flights$dep_delay[[i]] < 30) {
     some_flights[i, "dep_delay_cat"] <- "Kind of on time"
   } else {
     some_flights[i, "dep_delay_cat"] <- "Late"
@@ -840,6 +870,17 @@ some_flights |>
   select(contains("delay"))
 ```
 
+## Exercise {background-image="img/practice.jpg" background-opacity="0.2"}
+
+- Use `readr::read_csv()` to read the file and return a tibble.
+- Use the pipe and `dplyr::mutate()` to modify the character columns into factors.
+- Use `dplyr::across()` and `dplyr::case_when()` to obtain a categorical version of the delay columns.
+
+::: footer
+
+Photo by <a href="https://unsplash.com/@brett_jordan?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Brett Jordan</a> on <a href="https://unsplash.com/photos/brown-wooden-cross-on-white-surface-Fp4ERdkR5jU?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+
+:::
 
 # I/O
 
@@ -955,8 +996,6 @@ cat("    7\t8\t9\n")
 ::::
 
 
-## {background-iframe="https://readr.tidyverse.org/#alternatives"} {visibility="hidden"}
-
 ## .rds, .rda, .Rdata, other formats {.smaller}
 
 File type | Save | Open | Pros | Cons
@@ -964,6 +1003,47 @@ File type | Save | Open | Pros | Cons
 .rda/.Rdata^[Outside of (data) packages.] | `save()` | `load()` | Save multiple R objects as they are | Only R can open it; modifies variables
 .rds | `saveRDS()` | `readRDS()` | Save single R object as it is | Only R can open it.
 .txt, .csv... | `write.csv()`... | `read.csv()`... | Plain text: interoperable | Not just any R object
+
+
+## Exercise {background-image="img/practice.jpg" background-opacity="0.2"}
+
+- Save the filtered dataset as a file with comma-separated values, in a new folder called "output".
+
+::: footer
+
+Photo by <a href="https://unsplash.com/@brett_jordan?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Brett Jordan</a> on <a href="https://unsplash.com/photos/brown-wooden-cross-on-white-surface-Fp4ERdkR5jU?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+
+:::
+
+# To finish: start over {background-image="img/scratch.jpg" background-opacity="0.2" .smaller}
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+1. Create a new, empty project without git.
+2. Turn it into a git repository with `usethis::use_git()`.
+3. Add a readme with `usethis::use_readme_rmd()`.
+4. Create a script and fill it with the code in [this gist](https://gist.github.com/montesmariana/192c65b23820642cb467755f86beab01).
+
+:::
+
+::: {.column width="50%"}
+
+5. Source the script from the README.
+6. Edit the text of the README and call `print_tree()` from the sourced script.
+7. Render the README.
+8. Link to GitHub with `usethis::use_github()`.
+
+:::
+
+::::
+
+::: footer
+
+Photo by <a href="https://unsplash.com/@laurenagray?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">LAUREN GRAY</a> on <a href="https://unsplash.com/photos/white-egg-on-white-textile-Zqh5l1JWs5M?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+  
+:::
 
 # References
 

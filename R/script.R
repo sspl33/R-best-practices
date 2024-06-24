@@ -20,15 +20,16 @@ file.copy("Flight Subset 2013.csv", here("data", "nycflights13_random2000.csv"))
 some_flights_raw <- read_csv(here("data", "nycflights13_random2000.csv"))
 
 ## Change some columns ====
+delay_levels <- c("Early", "Kind of on time", "Late")
+
 categorize_delay <- function(minutes) {
-  lvls <- c("Early", "Kind of on time", "Late")
   case_when(
     is.na(minutes) ~ NA,
-    minutes < -30 ~ lvls[[1]],
-    minutes <= 30 ~ lvls[[2]],
-    TRUE ~ lvls[[3]]
+    minutes < -30 ~ delay_levels[[1]],
+    minutes <= 30 ~ delay_levels[[2]],
+    TRUE ~ delay_levels[[3]]
   ) |> 
-    factor(levels = lvls)
+    factor(levels = delay_levels)
 }
 some_flights <- some_flights_raw |> 
   mutate(
@@ -56,7 +57,6 @@ some_flights |>
 
 read_csv(cat_file_name)
 spec_csv(cat_file_name)
-delay_levels <- c("Early", "Kind of on time", "Late")
 read_csv(cat_file_name, col_types = list(
   month_name = col_factor(levels = month.name),
   dep_delay_cat = col_factor(levels = delay_levels, ordered = TRUE),
