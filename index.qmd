@@ -1033,7 +1033,7 @@ Photo by <a href="https://unsplash.com/@brett_jordan?utm_content=creditCopyText&
 5. Source the script from the README.
 6. Edit the text of the README and call `print_tree()` from the sourced script.
 7. Render the README.
-8. Link to GitHub with `usethis::use_github()`.
+8. Link to GitHub with `usethis::use_github(protocol="ssh")`.
 
 :::
 
