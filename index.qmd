@@ -36,7 +36,7 @@ TBD
 
 <div>
 ```{=html}
-<iframe class="slide-deck" src="../slides/index.html"></iframe>
+<iframe class="slide-deck" src="slides/index.html"></iframe>
 ```
 </div>
 
