@@ -1,0 +1,24 @@
+project:
+  type: website
+  render:
+    - "*.qmd"
+    - "!slides/R/"
+
+website:
+  title: "Best Practices in R"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: slides/index.qmd
+        text: Slides
+
+format:
+  html:
+    theme:
+      - slate
+      - vsc.scss
+    toc: true
+
+
+
