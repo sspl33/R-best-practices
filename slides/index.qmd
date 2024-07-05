@@ -1,5 +1,5 @@
 ---
-title: "Best Practices in R"
+title: "R Best Practices"
 format:
   revealjs:
     theme: [default, ../vsc.scss]

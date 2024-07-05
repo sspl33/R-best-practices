@@ -5,7 +5,11 @@ project:
     - "!slides/R/"
 
 website:
-  title: "Best Practices in R"
+  title: "R Best Practices"
+  description: |
+    "Description and slides for an introductory course on best practices in R"
+  repo-url: https://github.com/hpcleuven/R-best-practices
+  repo-actions: source
   navbar:
     left:
       - href: index.qmd
