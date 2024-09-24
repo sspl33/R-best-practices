@@ -42,8 +42,9 @@ Total duration: 3 hours
 
 # Prerequisites
 
-You will need some experience with R, and a GitHub account.
-You should also have R, R Studio and Git installed (or a vsc account and access to Open OnDemand).
+You will need some experience with R, and **a GitHub account**.
+
+You will be provided with a temporary [VSC](https://www.vscentrum.be/) account with access for one day.
 
 # Trainers
 
